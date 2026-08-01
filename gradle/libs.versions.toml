@@ -1,0 +1,32 @@
+# Version catalog — Phase 0 draft (research-pinned, see docs/phase0/research-log.md R1/R2)
+
+[versions]
+# --- Toolchain (R1) ---
+agp = "9.3.1"            # AGP 9: new DSL + built-in Kotlin; kotlin.android plugin NOT applied
+kotlin = "2.4.10"        # Compose compiler bundled with Kotlin
+compose-bom = "2026.06.01"
+gradle = "9.6.1"         # wrapper version
+jdk = "21"
+build-tools = "36.0.0"
+compile-sdk = "33"
+min-sdk = "33"
+target-sdk = "33"
+
+# --- Static analysis ---
+ktlint = "1.8.0"
+detekt = "1.23.8"
+
+# --- Root ecosystem pins (R2) — verify on device in Phase 0 baseline ---
+magisk = "30.7"
+lsposed = "2.0"
+
+# --- Test tooling (Phase 1 resolves exact artifacts) ---
+junit = "5.x"            # pin on bootstrap
+roborazzi = "x"          # pin on bootstrap
+kotlinx-serialization = "x"  # pin on bootstrap
+
+[libraries]
+# Phase 1 resolves coordinates; versions above are the pins.
+androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.11.0" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.11.0" }

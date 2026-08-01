@@ -23,6 +23,7 @@ Last updated: 2026-08-01
 | **Provisioning** | What the Magisk module does at install time: systemless priv-app install, overlay install, config-store bootstrap, hook enabling. |
 | **Tier-3** | Device-gated testing: anything that must run on real hardware (hooks against My UX SystemUI, Magisk flash, overlays). |
 | **Glass** | The Liquid Glass rendering treatment: translucency, live blur, refraction-inspired highlights, dynamic tinting. |
+| **Glass Intensity** | The runtime-adjustable translucency dimension of the token system (iOS 27's "Liquid Glass slider" analog) — a companion setting, not a static token. |
 | **Systemless** | Magisk's overlay-install mechanism — modifies the live system without touching partitions. |
 
 ## 2. Decision log (17 decisions + derived commitments)
@@ -53,15 +54,15 @@ Full reasoning in `docs/adr/`.
 
 ## 3. Open questions
 
-These are owned by Phase 0 (Discovery). Do not guess — research, then decide (one question at a time).
+Owned by Phase 0 (Discovery). Do not guess — research, then decide (one question at a time). Statuses updated as Phase 0 resolves items; research trail in `docs/phase0/research-log.md`.
 
-1. **Moto SystemUI hook-point survey** — map the actual classes/methods on this device's My UX SystemUI for the top-right swipe intercept. (Phase 0 spike, ADR-0005 depends on it)
-2. **iOS 27 design delta** — what changed vs iOS 26, and which refinements become a second token set. (feeds ADR-0011)
-3. **Toolchain bootstrap** — exact AGP / Kotlin / Compose BOM / Gradle versions for Phase 1, pinned via the version catalog. (feeds ADR-0003)
-4. **Widget tinting reality** — which Android 13 widgets actually honor platform tinting vs which will need glass framing. (feeds ADR-0015)
-5. **Category data layer** — initial category taxonomy and coverage strategy for the App Library mapping. (feeds ADR-0016)
-6. **LSPosed + Magisk version pins** — versions verified against API 33 My UX, recorded for reproducible provisioning.
-7. **Backup/restore format** — whether backup is a single bundle (config + assets) or config-only in v1.
+1. **Moto SystemUI hook-point survey** — map the actual classes/methods on this device's My UX SystemUI for the top-right swipe intercept. — ⏳ device-gated (spike, feeds ADR-0019)
+2. **iOS 27 design delta** — ✅ **resolved** (research-log R3): Liquid Glass revised for readability; **user-adjustable translucency slider** → our token system must include a runtime-adjustable **glass-intensity** token dimension; **interaction model change**: center-swipe = Search (replaces Spotlight), Notification Center → upper-left, CC stays top-right.
+3. **Toolchain bootstrap** — ✅ **resolved (draft)**: AGP 9.3.1 + built-in Kotlin 2.4.10 (no `kotlin.android` plugin — AGP 9 DSL), Compose BOM 2026.06.01, Gradle 9.6.1, JDK 21, API 33; pinned in `gradle/libs.versions.toml`; finalize on Phase 1 bootstrap. (research-log R1, R4)
+4. **Widget tinting reality** — which Android 13 widgets actually honor platform tinting vs which will need glass framing. — ⏳ device-gated (feeds ADR-0015)
+5. **Category data layer** — initial category taxonomy and coverage strategy for the App Library mapping. — 🔄 Phase 2 design input; taxonomy draft can begin without device.
+6. **LSPosed + Magisk version pins** — ✅ **resolved (draft)**: Magisk v30.7, LSPosed v2.0 (JingMatrix fork) — recorded in `gradle/libs.versions.toml`; ⏳ verify API 33 behavior on device (risk R06).
+7. **Backup/restore format** — whether backup is a single bundle (config + assets) or config-only in v1. — 🔄 Phase 5 decision; schema work in Phase 1 informs it.
 
 ## 4. Rules for this document
 
