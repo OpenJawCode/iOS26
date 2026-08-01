@@ -94,3 +94,21 @@
 - No NDK needed (no native code; RenderEffect is framework-side).
 
 **Implications:** Phase 1 bootstrap checklist is version-pinned; the `agp-9-upgrade` skill is the SOP for any AGP question.
+
+## R7 — CC spike results (2026-08-02) — chain validated on device
+
+**Question (ADR-0005/0019):** Does the file-event bus + overlay-host architecture deliver the Control Center experience on this device?
+
+**Method:** throwaway spike (`OpenJawCode/cc-spike`, private): host app (FileObserver/poll watcher + overlay panel) + minimal LSPosed hook (gesture intercept).
+
+**Validated on device (Tier 3):**
+- Event file bus: root-side atomic write (tmp+rename) → app-side detection → overlay panel. **End-to-end 68ms** with a 200ms poll (inotify would be sub-10ms; poll is a documented fallback, ADR-0019).
+- Overlay rendering over any app (TYPE_APPLICATION_OVERLAY, granted via appops), brightness slider (WRITE_SETTINGS), dismissal.
+
+**Blockers found (Phase 3 inputs):**
+1. **JingMatrix LSPosed fork v2.1.0 (7769) legacy API is broken for new modules**: every legacy module built against `de.robv.android.xposed` (even with exact `callbacks.XC_LoadPackage` signatures, single-dex, correct meta-data) throws `AbstractMethodError` — the fork's R8-obfuscated legacy bridge (`g.NmByVF.eSa.oCn.tZhyB.*`) fails to link module classes. Existing legacy modules (chromext) work; new ones don't. **Fix path: fork's modern libxposed API** (`META-INF/xposed/java_init.list` + module.prop `targetApiVersion>=101`). Fork source cloned at `/tmp/opencode/lsposed-src`.
+2. **Module registration**: the fork stores module config in SQLite (`/data/adb/lspd/config/modules_config.db`); manager detects via `xposedmodule`/`xposedminversion` meta-data (legacy) or `META-INF/xposed/*` (modern). Manual DB edits wedge the daemon's cache-update loop (daemon must be restarted; mid-session restart segfaults on this build — reboot needed).
+3. **Config store location**: `/data/adb` is 0700 root + `adb_data_file` SELinux — **unreadable by apps** (DAC + SELinux walls; magiskpolicy --live did not lift adb_data_file for untrusted_app; `/data/local/tmp` works). → **ADR-0006 amendment**: split store — system-facing (`/data/adb`, hooks) vs app-facing (`/data/local/tmp`-class with policy) or dedicated context via Magisk module. Decision needed in Phase 1.
+4. **Lab plumbing**: `persist.adb.tcp.port=5555` is the correct persistent wireless-adb mechanism (set once, survives reboots); a Magisk module with service.sh races adbd at boot (causes offline state). Tailscale on the phone needs Always-on VPN to reconnect after reboot.
+
+**Other findings:** AGP 9.3.1 on ARM64 hosts has no aapt2 (Google ships x86_64 only) — spike builds ran in GitHub Actions (x86_64) with a pinned lab debug keystore; local ARM64 builds need a source-built aapt2 (Phase 1 lab task, documented).
