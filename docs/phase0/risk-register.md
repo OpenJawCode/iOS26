@@ -9,7 +9,7 @@
 | R03 | **AGP 9 built-in Kotlin + new DSL friction** — greenfield but new-doc-light | M | M | `agp-9-upgrade` skill as SOP; Phase 1 bootstrap spike; version catalog pinned (R1) | build-owner | 🔄 mitigated by R1 |
 | R04 | **Widget tinting variance on API 33** — many third-party widgets resist platform tinting | H | M | Tint survey on device; glass framing fallback (ADR-0015); honest docs | widgets-owner | ⏳ device-gated |
 | R05 | **iOS 27 design drift** — 27's GA (Sept 2026) may revise more than the beta shows | M | M | Token abstraction (ADR-0011); glass-intensity token dimension (R3); delta notes in research log | design-owner | ✅ mitigated |
-| R06 | **LSPosed v2.0 (fork) on API 33** — fork targets newer Android; API 33 behavior unverified | M | H | Baseline verification on device; pin exact versions; document fallback to last known-good | provisioning-owner | ⏳ device-gated |
+| R06 | **LSPosed v2.0 (fork) on API 33** — fork targets newer Android; API 33 behavior unverified | M | H | ✅ **Mitigated (R5):** v2.1.0 (7769) confirmed running on this exact device/firmware via ReZygisk; pin updated | provisioning-owner | ✅ mitigated |
 | R07 | **Performance on Snapdragon 778G** — blur-heavy UI on a mid-range SoC | M | H | Phase 8 budgets; blur discipline from day one (ADR-0003); early macrobenchmark smoke in Phase 2 | springboard-owner | open |
 | R08 | **Legal — Apple IP drift** | L | H | ADR-0012 enforcement; asset review in every gate; personal import stays on-device | doc-owner | open |
 | R09 | **Device access logistics** — adb/workflow for Tier 3 work not yet established on the dev machine | M | M | Decision pending (interview); baseline script ready (`device-tests/baseline/`) | provisioning-owner | ⏳ decision |

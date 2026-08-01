@@ -61,7 +61,7 @@ Owned by Phase 0 (Discovery). Do not guess — research, then decide (one questi
 3. **Toolchain bootstrap** — ✅ **resolved (draft)**: AGP 9.3.1 + built-in Kotlin 2.4.10 (no `kotlin.android` plugin — AGP 9 DSL), Compose BOM 2026.06.01, Gradle 9.6.1, JDK 21, API 33; pinned in `gradle/libs.versions.toml`; finalize on Phase 1 bootstrap. (research-log R1, R4)
 4. **Widget tinting reality** — which Android 13 widgets actually honor platform tinting vs which will need glass framing. — ⏳ device-gated (feeds ADR-0015)
 5. **Category data layer** — initial category taxonomy and coverage strategy for the App Library mapping. — 🔄 Phase 2 design input; taxonomy draft can begin without device.
-6. **LSPosed + Magisk version pins** — ✅ **resolved (draft)**: Magisk v30.7, LSPosed v2.0 (JingMatrix fork) — recorded in `gradle/libs.versions.toml`; ⏳ verify API 33 behavior on device (risk R06).
+6. **LSPosed + Magisk version pins** — ✅ **resolved (verified on device, R5)**: Magisk **30.7**, LSPosed **v2.1.0 (7769)** (`zygisk_lsposed`), Zygisk via **ReZygisk**; firmware frozen at `T1RGS33.135-109-9-29` (patch 2024-09-01). Baseline: `docs/phase0/baseline/2026-08-01.txt`.
 7. **Backup/restore format** — whether backup is a single bundle (config + assets) or config-only in v1. — 🔄 Phase 5 decision; schema work in Phase 1 informs it.
 
 ## 4. Rules for this document

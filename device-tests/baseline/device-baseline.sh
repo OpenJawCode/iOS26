@@ -35,11 +35,12 @@ else
   check "magisk -v (root access)" FAIL
 fi
 
-# --- Zygisk ---
-if su -c 'magisk --zygisk' 2>/dev/null | grep -qi 'true\|enabled'; then
-  check "zygisk enabled" PASS
+# --- Zygisk (present via module: zygisk_lsposed / rezygisk / zygisk-next) ---
+ZYGISK_MOD=$(su -c 'ls -d /data/adb/modules/*zygisk* 2>/dev/null' | head -1)
+if [ -n "$ZYGISK_MOD" ]; then
+  check "zygisk present ($(basename "$ZYGISK_MOD"))" PASS
 else
-  check "zygisk enabled" FAIL
+  check "zygisk present" FAIL
 fi
 
 # --- Magisk modules present ---
@@ -53,8 +54,8 @@ if [ -n "$LSPD" ]; then
 else
   check "lspd dir present (/data/adb/lspd)" FAIL
 fi
-LSPD_VER=$(su -c 'getprop lspd.version 2>/dev/null')
-echo "LSPD_VERSION=$LSPD_VER"
+LSPD_MOD=$(su -c 'cat /data/adb/modules/zygisk_lsposed/module.prop 2>/dev/null | grep -m1 version=')
+echo "LSPD_MODULE=$LSPD_MOD"
 
 # --- SystemUI identity (hook target) ---
 SYS_VER=$(dumpsys package com.android.systemui 2>/dev/null | grep -m1 versionName)

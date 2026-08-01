@@ -1,0 +1,12 @@
+MODEL=motorola edge 20 RELEASE=13 SDK=33 PATCH=2024-09-01
+FINGERPRINT=motorola/berlin_globale/berlin:13/T1RGS33.135-109-9-29/695e0-d4b251:user/release-keys
+30.7:MAGISK:R
+PASS  magisk 30.7:MAGISK:R
+PASS  zygisk present (rezygisk)
+MODULES=AppleFonts BuiltIn-BusyBox Iconify NLSound PixelifyPhotos SanFransiscoFont StylizeText ViPER4Android-RE-Fork Yurikey abootloop aml com.chiller3.bcr fastcharge-next flagsecurepatcher hosts iOS_Emoji mmrl_wpd net-switch playintegrityfix rezygisk treat_wheel tricky_store zygisk_lsposed zygisk_nohello 
+PASS  lspd dir present (/data/adb/lspd)
+LSPD_MODULE=version=v2.1.0 (7769)
+SYSTEMUI     versionName=13
+PASS  android 13 (sdk 33)
+INFO  /data/adb/ios26 not present (created by Magisk module at install time)
+TOTAL PASS=4 FAIL=0

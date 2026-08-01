@@ -16,9 +16,9 @@ target-sdk = "33"
 ktlint = "1.8.0"
 detekt = "1.23.8"
 
-# --- Root ecosystem pins (R2) — verify on device in Phase 0 baseline ---
-magisk = "30.7"
-lsposed = "2.0"
+# --- Root ecosystem pins (R2 + R5 on-device verification) ---
+magisk = "30.7"          # verified on device 2026-08-01
+lsposed = "2.1.0"        # on-device module version (7769); ReZygisk provider
 
 # --- Test tooling (Phase 1 resolves exact artifacts) ---
 junit = "5.x"            # pin on bootstrap

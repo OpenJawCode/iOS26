@@ -55,6 +55,32 @@
 
 ---
 
+## R5 — On-device baseline (2026-08-01) — first wireless lab run
+
+**Question:** What is the actual state of the reference device?
+
+**Method:** `device-tests/baseline/device-baseline.sh` run over Tailscale (adb TCP) — output in `docs/phase0/baseline/2026-08-01.txt`.
+
+**Findings:**
+
+| Item | On-device value | vs pin |
+|---|---|---|
+| Device | motorola edge 20, codename `berlin`, global variant | matches D2 |
+| Firmware | `T1RGS33.135-109-9-29`, security patch **2024-09-01** | ⭐ frozen hook target |
+| Android | 13, SDK 33 | matches D3/ADR-0017 |
+| Magisk | **30.7** | matches R2 pin |
+| Zygisk | **ReZygisk** module (not classic Zygisk) | ⚠️ provisioning must use ReZygisk-compatible LSPosed |
+| LSPosed | **v2.1.0 (7769)** via `zygisk_lsposed` module | ⚠️ newer than R2's v2.0 release pin — use on-device version |
+| SystemUI | versionName=13 (My UX) | hook target for ADR-0019 survey |
+| Config store | `/data/adb/ios26` absent (expected — created at install time) | as designed |
+
+**Implications:**
+- Firmware build `T1RGS33.135-109-9-29` is the permanent hook survey target; record it with every survey artifact.
+- LSPosed pin updated to **v2.1.0 (7769)** for provisioning; R06 (fork-on-API-33 risk) downgraded to mitigated — it's running on this exact device.
+- Device has 24 Magisk modules (ecosystem context: tricky_store, playintegrityfix, flagsecurepatcher, iOS-style font/emoji mods). `flagsecurepatcher` means secure-app screenshot capture is possible — useful for the CC spike later.
+
+---
+
 ## R4 — AGP 9.3 implications for the monorepo (2026-08-01)
 
 **Question:** What does AGP 9 mean for our build structure?
