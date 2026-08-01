@@ -112,3 +112,22 @@
 4. **Lab plumbing**: `persist.adb.tcp.port=5555` is the correct persistent wireless-adb mechanism (set once, survives reboots); a Magisk module with service.sh races adbd at boot (causes offline state). Tailscale on the phone needs Always-on VPN to reconnect after reboot.
 
 **Other findings:** AGP 9.3.1 on ARM64 hosts has no aapt2 (Google ships x86_64 only) — spike builds ran in GitHub Actions (x86_64) with a pinned lab debug keystore; local ARM64 builds need a source-built aapt2 (Phase 1 lab task, documented).
+
+## R8 — Widget tinting survey (2026-08-02) — reference device inventory
+
+**Question (CONTEXT #4 / ADR-0015):** Which widgets on the reference device honor platform tinting?
+
+**Method:** `dumpsys appwidget` on device (T1RGS33.135-109-9-29). 269 widget providers installed; 10 widgets live on the user's home screen (Moto Launcher3 host).
+
+**Findings:**
+- Platform mechanism (API 33): widgets referencing `system_*` color resources in RemoteViews are auto-tinted by the framework; custom-drawn/hardcoded-color widgets are not. `WIDGET_FEATURE_RECOLORABLE` exists (API 31+) but auto-tint works via system color references regardless.
+- **Reference home screen mix (10 live widgets):**
+  | Widget | Type | Tintable? |
+  |---|---|---|
+  | Art Text (com.vector123.arttextwidget) ×5 | third-party, custom-drawn | ❌ → glass-framing path |
+  | MyMasjid prayer times ×1 | third-party custom | ❌ → glass-framing path |
+  | Moto Time & Weather (commandcenter) ×1 | system | ✅ system colors |
+  | Google Search ×1 | system | ✅ system colors |
+- 269 providers installed: Google apps (Calendar, Photos, Maps, YT Music, Wellbeing, Docs), Chrome, Play, Slack — mostly Google/system (tintable); long tail of third-party (mixed).
+
+**Implication (ADR-0015 confirmed, quantified):** roughly 40-60% of real home-screen widgets on this device will NOT tint → the glass-framing treatment is a core widget-host feature, not an edge case. Phase 2 host must implement: tint detection (query provider RemoteViews color scheme via `AppWidgetProviderInfo`/resource inspection where possible) + default glass-frame for non-tinting widgets + per-widget user override stored in config.

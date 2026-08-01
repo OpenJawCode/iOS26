@@ -26,6 +26,7 @@ Every significant architectural decision is recorded here. Numbering is sequenti
 | [0018](0018-observability-no-third-party-sdks.md) | Observability: no third-party SDKs |
 | [0019](0019-hook-seam-signaling.md) | Hook seam & file-event signaling |
 | [0020](0020-ci-cd-model.md) | CI/CD model |
+| [0021](0021-config-store-access-model.md) | Config store access model (amends ADR-0006) |
 
 ## Template
 

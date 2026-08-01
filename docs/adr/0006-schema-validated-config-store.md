@@ -1,6 +1,6 @@
 # ADR-0006: Schema-validated file config store
 
-- Status: Accepted
+- Status: Accepted (location & access model amended by ADR-0021)
 - Date: 2026-08-01
 - Decision: D7
 

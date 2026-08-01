@@ -49,6 +49,7 @@ Full reasoning in `docs/adr/`.
 | D15 | License = GPL-3.0 everywhere | ADR-0014 |
 | D16 | Widgets = full AppWidgetHost in v1, iOS-styled slots, platform tinting where possible | ADR-0015 |
 | D17 | App Library = auto-categories with bundled localized mapping + per-app overrides; Spotlight = apps + contacts + actions, offline | ADR-0016 |
+| D18 | Config store access model: split store (system zone private; shared zone = dedicated SELinux context via Magisk sepolicy.rule) — spike-forced amendment | ADR-0021 |
 
 **Derived commitments** (recorded as ADRs where they carry weight): minSdk = targetSdk = 33 (ADR-0017) · no third-party crash/analytics SDKs (ADR-0018) · hook seam + file-based event signaling (ADR-0019) · GitHub Actions CI/CD model (ADR-0020) · Kotlin on Android, TypeScript/React (Vite) + zod for WebUI · no Rust, no cloud.
 
@@ -59,7 +60,7 @@ Owned by Phase 0 (Discovery). Do not guess — research, then decide (one questi
 1. **Moto SystemUI hook-point survey** — ✅ **resolved (R5/survey 2026-08-01)**: no AOSP `QuickSettingsController` exists on this build — Moto's "Cli" overlay + PrcPanel replace it. Primary hook: `NotificationPanelViewController#onInterceptTouchEvent` (region predicate `shouldQuickSettingsIntercept`; fallback `handleQsDown`). Full map: `docs/phase0/survey/systemui-hook-points.md`. Runtime validation deferred to the CC spike.
 2. **iOS 27 design delta** — ✅ **resolved** (research-log R3): Liquid Glass revised for readability; **user-adjustable translucency slider** → our token system must include a runtime-adjustable **glass-intensity** token dimension; **interaction model change**: center-swipe = Search (replaces Spotlight), Notification Center → upper-left, CC stays top-right.
 3. **Toolchain bootstrap** — ✅ **resolved (draft)**: AGP 9.3.1 + built-in Kotlin 2.4.10 (no `kotlin.android` plugin — AGP 9 DSL), Compose BOM 2026.06.01, Gradle 9.6.1, JDK 21, API 33; pinned in `gradle/libs.versions.toml`; finalize on Phase 1 bootstrap. (research-log R1, R4)
-4. **Widget tinting reality** — which Android 13 widgets actually honor platform tinting vs which will need glass framing. — ⏳ device-gated (feeds ADR-0015)
+4. **Widget tinting reality** — ✅ **resolved (R8 survey 2026-08-02)**: reference device inventory — system/Google widgets tint (system colors), custom third-party (Art Text ×5, MyMasjid on the user's home screen) do not → glass-framing is a core host feature; per-widget override in config.
 5. **Category data layer** — initial category taxonomy and coverage strategy for the App Library mapping. — 🔄 Phase 2 design input; taxonomy draft can begin without device.
 6. **LSPosed + Magisk version pins** — ✅ **resolved (verified on device, R5)**: Magisk **30.7**, LSPosed **v2.1.0 (7769)** (`zygisk_lsposed`), Zygisk via **ReZygisk**; firmware frozen at `T1RGS33.135-109-9-29` (patch 2024-09-01). Baseline: `docs/phase0/baseline/2026-08-01.txt`.
 7. **Backup/restore format** — whether backup is a single bundle (config + assets) or config-only in v1. — 🔄 Phase 5 decision; schema work in Phase 1 informs it.

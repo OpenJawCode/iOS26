@@ -8,7 +8,9 @@ Phase 0's job: **reduce uncertainty on a rooted Edge 20 before committing archit
 |---|---|---|
 | Device baseline (firmware, Magisk, Zygisk, LSPosed pins) | ✅ done (2026-08-01) | `baseline/2026-08-01.txt` — firmware `T1RGS33.135-109-9-29`, Magisk 30.7, LSPosed v2.1.0 (7769) via ReZygisk |
 | My UX SystemUI hook-point survey (top-right swipe) | ✅ done (2026-08-01) | `survey/systemui-hook-points.md` — PrcPanel `onInterceptTouchEvent` is the primary target; runtime validation in spike |
-| Control Center overlay spike (gesture→event→panel round-trip) | ⏳ next | `research-log.md` → ADR-0005/0019 |
+| Control Center overlay spike (gesture→event→panel round-trip) | ✅ done (2026-08-02) | R7 — chain validated 68ms e2e; hook-loading deferred to Phase 3 (fork legacy API broken; modern libxposed path) |
+| Widget tinting survey | ✅ done (2026-08-02) | R8 — reference home-screen mix: 40-60% non-tintable → glass-framing core feature |
+| Phase 0 close-out | 🔄 in progress | ADR-0021 (store split) accepted; open: phase exit review |
 | iOS 27 design delta research | ✅ done | `research-log.md` R3 |
 | Widget tinting reality check (API 33) | ⏳ device-gated | `research-log.md` |
 | Toolchain pinning (version catalog draft) | ✅ done | `gradle/libs.versions.toml` |
