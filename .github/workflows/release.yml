@@ -1,0 +1,47 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    name: Build & draft release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Assemble artifacts
+        env:
+          ANDROID_SIGNING_KEYSTORE_B64: ${{ secrets.ANDROID_SIGNING_KEYSTORE_B64 }}
+          ANDROID_SIGNING_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEYSTORE_PASSWORD }}
+          ANDROID_SIGNING_KEY_ALIAS: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
+          ANDROID_SIGNING_KEY_PASSWORD: ${{ secrets.ANDROID_SIGNING_KEY_PASSWORD }}
+        run: |
+          ./gradlew \
+            :launcher:app:assembleRelease \
+            :companion:app:assembleRelease \
+            :hooks:control-center:assembleRelease \
+            :magisk:ios26-stack:assembleModuleZip
+
+      - name: Collect artifacts
+        run: |
+          mkdir -p dist
+          cp launcher/app/build/outputs/apk/release/*.apk dist/
+          cp companion/app/build/outputs/apk/release/*.apk dist/
+          cp hooks/control-center/build/outputs/apk/release/*.apk dist/
+          cp magisk/ios26-stack/release/*.zip dist/
+
+      - name: Draft GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          draft: true
+          generate_release_notes: true
+          fail_on_unmatched_files: true

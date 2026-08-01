@@ -1,0 +1,40 @@
+# ============ Secrets ============
+.env
+.env.*
+!.env.example
+
+# ============ Agent tooling ============
+.opencode/
+.claude/
+.agents/
+
+# ============ Logs & scratch ============
+*.log
+bugs-log.md
+mistake-log.md
+todos.md
+.tmp/
+
+# ============ Build artifacts ============
+.gradle/
+build/
+out/
+dist/
+coverage/
+*.apk
+*.aab
+*.zip
+!magisk/ios26-stack/release/
+node_modules/
+
+# ============ Android / IDE ============
+local.properties
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+
+# ============ OS ============
+.DS_Store
+Thumbs.db
