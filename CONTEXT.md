@@ -56,7 +56,7 @@ Full reasoning in `docs/adr/`.
 
 Owned by Phase 0 (Discovery). Do not guess — research, then decide (one question at a time). Statuses updated as Phase 0 resolves items; research trail in `docs/phase0/research-log.md`.
 
-1. **Moto SystemUI hook-point survey** — map the actual classes/methods on this device's My UX SystemUI for the top-right swipe intercept. — ⏳ device-gated (spike, feeds ADR-0019)
+1. **Moto SystemUI hook-point survey** — ✅ **resolved (R5/survey 2026-08-01)**: no AOSP `QuickSettingsController` exists on this build — Moto's "Cli" overlay + PrcPanel replace it. Primary hook: `NotificationPanelViewController#onInterceptTouchEvent` (region predicate `shouldQuickSettingsIntercept`; fallback `handleQsDown`). Full map: `docs/phase0/survey/systemui-hook-points.md`. Runtime validation deferred to the CC spike.
 2. **iOS 27 design delta** — ✅ **resolved** (research-log R3): Liquid Glass revised for readability; **user-adjustable translucency slider** → our token system must include a runtime-adjustable **glass-intensity** token dimension; **interaction model change**: center-swipe = Search (replaces Spotlight), Notification Center → upper-left, CC stays top-right.
 3. **Toolchain bootstrap** — ✅ **resolved (draft)**: AGP 9.3.1 + built-in Kotlin 2.4.10 (no `kotlin.android` plugin — AGP 9 DSL), Compose BOM 2026.06.01, Gradle 9.6.1, JDK 21, API 33; pinned in `gradle/libs.versions.toml`; finalize on Phase 1 bootstrap. (research-log R1, R4)
 4. **Widget tinting reality** — which Android 13 widgets actually honor platform tinting vs which will need glass framing. — ⏳ device-gated (feeds ADR-0015)
