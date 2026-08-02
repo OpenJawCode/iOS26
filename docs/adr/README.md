@@ -32,6 +32,11 @@ Every significant architectural decision is recorded here. Numbering is sequenti
 | [0024](0024-motion-system.md) | Motion system (token-driven) |
 | [0025](0025-component-library-architecture.md) | Component library (no M3) |
 | [0026](0026-springboard-grid-spec.md) | Springboard grid specification |
+| [0027](0027-glass-engine-v2.md) | Glass Engine v2 architecture |
+| [0028](0028-material-compositing-pipeline.md) | Material compositing pipeline |
+| [0029](0029-motion-system-architecture.md) | Motion system architecture (v2) |
+| [0030](0030-performance-budgets.md) | Performance budgets (binding) |
+| [0031](0031-component-rendering-contracts.md) | Component rendering contracts |
 
 ## Template
 
