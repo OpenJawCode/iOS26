@@ -1,0 +1,11 @@
+// Vendored from libxposed (Apache-2.0) — annotation-only marker.
+package io.github.libxposed.annotation;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target({ElementType.METHOD, ElementType.TYPE, ElementType.CONSTRUCTOR})
+public @interface InternalApi {}

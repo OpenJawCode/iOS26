@@ -1,0 +1,13 @@
+# Compose-aware detekt config: composables are PascalCase by convention (ADR-0025);
+# parameter lists carry token plumbing. Reviewed 2026-08-02.
+naming:
+  FunctionNaming:
+    active: true
+    excludes: ['**/test/**']
+    functionPattern: '([a-z][a-zA-Z0-9]*)|([A-Z][a-zA-Z0-9]*_?$)'  # allow composables
+  TopLevelPropertyNaming:
+    active: false
+complexity:
+  LongParameterList:
+    active: true
+    threshold: 20  # TokenSet carries full token plumbing by design

@@ -18,7 +18,10 @@ abstract class ArchitectureValidateTask : DefaultTask() {
             ":libs:schema" to emptySet(),
             ":libs:testing" to emptySet(),
             ":libs:config" to setOf(":libs:core", ":libs:schema"),
-            ":launcher:app" to emptySet(),
+            ":hooks:hooks-api" to emptySet(),
+            ":hooks:hooks-common" to setOf(":libs:config", ":hooks:hooks-api"),
+            ":hooks:control-center" to setOf(":hooks:hooks-common", ":hooks:hooks-api", ":libs:config"),
+            ":launcher:app" to setOf(":libs:design"),
             ":benchmarks:macrobenchmark" to emptySet(),
             ":launcher:baseline-prof" to emptySet(),
         )

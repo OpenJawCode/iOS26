@@ -16,6 +16,9 @@ class Ios26QualityConventionPlugin : Plugin<Project> {
             plugins.apply("org.jlleitschuh.gradle.ktlint")
             plugins.apply("io.gitlab.arturbosch.detekt")
 
+            extensions.configure<DetektExtension> {
+                config.setFrom(rootProject.file("config/detekt/detekt.yml"))
+            }
             tasks.withType(Detekt::class.java).configureEach {
                 // Module-local sources only (whole-repo scans per module were O(NxM) slow).
                 setSource(projectDir)

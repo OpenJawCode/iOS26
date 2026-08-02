@@ -35,6 +35,10 @@ gradlePlugin {
             id = "ios26.design"
             implementationClass = "dev.ios26.buildlogic.Ios26DesignConventionPlugin"
         }
+        create("ios26ModuleInject") {
+            id = "ios26.module-inject"
+            implementationClass = "dev.ios26.buildlogic.Ios26ModuleInjectPlugin"
+        }
         create("ios26Architecture") {
             id = "ios26.architecture"
             implementationClass = "dev.ios26.buildlogic.Ios26ArchitectureConventionPlugin"

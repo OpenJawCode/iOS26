@@ -30,7 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.awaitPointerEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
@@ -134,7 +133,7 @@ private fun SpringboardHost(apps: List<AppInfo>) {
                         var opened = false
                         while (true) {
                             val event = awaitPointerEvent()
-                            if (!opened && event.changes.any { change -> change.positionChange().y > 100f }) {
+                            if (!opened && event.changes.any { change -> change.position.y - down.position.y > 100f }) {
                                 showCc = true
                                 opened = true
                             }
