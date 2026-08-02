@@ -3,7 +3,9 @@ package dev.ios26.design.engines
 import android.app.WallpaperManager
 import android.graphics.drawable.BitmapDrawable
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.palette.graphics.Palette
