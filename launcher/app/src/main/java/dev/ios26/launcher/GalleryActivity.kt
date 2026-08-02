@@ -49,7 +49,9 @@ import dev.ios26.design.tokens.Tokens
 class GalleryActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        applyGlassBlur(GlassEngine.blurRadiusFor(dev.ios26.design.theme.GlassIntensity.Standard))
+        window.decorView.post {
+            applyGlassBlur(GlassEngine.blurRadiusFor(dev.ios26.design.theme.GlassIntensity.Standard))
+        }
         setContent {
             Ios26Theme {
                 GalleryContent()

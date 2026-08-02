@@ -25,20 +25,25 @@ object DynamicColorEngine {
         return Color(swatch.rgb)
     }
 
-    /** Composable accessor — reads the wallpaper once. */
+    /** Composable accessor — extracts the wallpaper accent OFF the main thread (perf: palette
+     *  generation is expensive; measured 59% jank on first gallery frame, Phase 2 baseline). */
     @Composable
     fun rememberWallpaperAccent(): Color {
         val context = LocalContext.current
-        return remember {
-            runCatching {
-                val drawable = WallpaperManager.getInstance(context).drawable
-                val bitmap = (drawable as? BitmapDrawable)?.bitmap
-                if (bitmap == null) {
-                    Tokens.Semantic.Light.accent
-                } else {
-                    accentFrom(Palette.from(bitmap).generate(), Tokens.Semantic.Light.accent)
-                }
-            }.getOrDefault(Tokens.Semantic.Light.accent)
+        var accent by androidx.compose.runtime.remember { androidx.compose.runtime.mutableStateOf(Tokens.Semantic.Light.accent) }
+        androidx.compose.runtime.LaunchedEffect(Unit) {
+            accent = kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.Default) {
+                runCatching {
+                    val drawable = WallpaperManager.getInstance(context).drawable
+                    val bitmap = (drawable as? BitmapDrawable)?.bitmap
+                    if (bitmap == null) {
+                        Tokens.Semantic.Light.accent
+                    } else {
+                        accentFrom(Palette.from(bitmap).generate(), Tokens.Semantic.Light.accent)
+                    }
+                }.getOrDefault(Tokens.Semantic.Light.accent)
+            }
         }
+        return accent
     }
 }
