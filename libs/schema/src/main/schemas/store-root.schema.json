@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://dev.ios26/schemas/store-root.schema.json",
+  "title": "StoreRoot",
+  "description": "Config store root document (ADR-0006/0021). Version-gates migrations.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "enum": ["system", "shared", "events"]
+      },
+      "uniqueItems": true
+    }
+  },
+  "required": ["version"],
+  "additionalProperties": true
+}

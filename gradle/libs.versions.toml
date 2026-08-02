@@ -1,32 +1,45 @@
-# Version catalog — Phase 0 draft (research-pinned, see docs/phase0/research-log.md R1/R2)
+# Version catalog — pinned per docs/phase0/research-log.md R1/R2 and Phase 1 bootstrap.
+# NEVER add inline versions in module build files.
 
 [versions]
-# --- Toolchain (R1) ---
-agp = "9.3.1"            # AGP 9: new DSL + built-in Kotlin; kotlin.android plugin NOT applied
-kotlin = "2.4.10"        # Compose compiler bundled with Kotlin
-compose-bom = "2026.06.01"
-gradle = "9.6.1"         # wrapper version
+# Toolchain (R1)
+agp = "9.3.1"
+kotlin = "2.4.10"            # serialization compiler plugin; built-in Kotlin comes from AGP
+compileSdk = "33"
+minSdk = "33"
+targetSdk = "33"
 jdk = "21"
-build-tools = "36.0.0"
-compile-sdk = "33"
-min-sdk = "33"
-target-sdk = "33"
+buildTools = "36.0.0"
+gradle = "9.6.1"             # wrapper
 
-# --- Static analysis ---
-ktlint = "1.8.0"
+# Kotlinx (verified 2026-08-02 against Maven Central)
+kotlinx-serialization = "1.11.0"
+kotlinx-coroutines = "1.11.0"
+
+# Testing (Tier 1)
+junit4 = "4.13.2"
+
+# Schema
+networknt = "3.0.6"
+
+# Static analysis
 detekt = "1.23.8"
+ktlint = "12.1.2"
 
-# --- Root ecosystem pins (R2 + R5 on-device verification) ---
-magisk = "30.7"          # verified on device 2026-08-01
-lsposed = "2.1.0"        # on-device module version (7769); ReZygisk provider
-
-# --- Test tooling (Phase 1 resolves exact artifacts) ---
-junit = "5.x"            # pin on bootstrap
-roborazzi = "x"          # pin on bootstrap
-kotlinx-serialization = "x"  # pin on bootstrap
+# Root ecosystem (Phase 3+; recorded for provenance)
+magisk = "30.7"
+lsposed = "2.1.0"
 
 [libraries]
-# Phase 1 resolves coordinates; versions above are the pins.
-androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version = "1.11.0" }
-kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version = "1.11.0" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+junit4 = { group = "junit", name = "junit", version.ref = "junit4" }
+networknt = { group = "com.networknt", name = "json-schema-validator", version.ref = "networknt" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
