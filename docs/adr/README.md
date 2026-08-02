@@ -37,6 +37,10 @@ Every significant architectural decision is recorded here. Numbering is sequenti
 | [0029](0029-motion-system-architecture.md) | Motion system architecture (v2) |
 | [0030](0030-performance-budgets.md) | Performance budgets (binding) |
 | [0031](0031-component-rendering-contracts.md) | Component rendering contracts |
+| [0032](0032-systemui-injection-strategy.md) | SystemUI injection strategy |
+| [0033](0033-hook-architecture.md) | Hook architecture |
+| [0034](0034-rendering-bridge.md) | Rendering bridge |
+| [0035](0035-state-synchronization.md) | State synchronization |
 
 ## Template
 
