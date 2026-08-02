@@ -16,10 +16,14 @@ class Ios26ApplicationConventionPlugin : Plugin<Project> {
         with(target) {
             plugins.apply("com.android.application")
             plugins.apply("org.jetbrains.kotlin.plugin.serialization")
+            plugins.apply("org.jetbrains.kotlin.plugin.compose")
             plugins.apply("ios26.quality")
             plugins.apply("ios26.testing")
 
             extensions.configure<ApplicationExtension> {
+                buildFeatures {
+                    compose = true
+                }
                 namespace = "dev.ios26.${project.name.replace("-", "")}"
                 compileSdk = Sdk.COMPILE
                 defaultConfig {
