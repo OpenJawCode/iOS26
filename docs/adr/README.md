@@ -65,3 +65,6 @@ What this decision makes easier, harder, and what it commits us to.
 1. A decision without an ADR is a guess. Architecture changes require an ADR *before* code.
 2. Supersede, never delete. Edit the old ADR's status only.
 3. New ADRs reference the interview decision (D#) in CONTEXT.md for traceability.
+| [0036](0036-control-center-rendering-architecture.md) | Control Center rendering architecture |
+| [0037](0037-control-center-state-sync.md) | Control Center state synchronization |
+| [0038](0038-control-center-systemui-integration.md) | Control Center SystemUI integration |

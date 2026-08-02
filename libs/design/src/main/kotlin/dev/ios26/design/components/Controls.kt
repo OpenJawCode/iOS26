@@ -53,7 +53,7 @@ internal fun pressedOverlay(mode: ThemeMode): Color = when (mode) {
 
 /** Press feedback via MotionEngine v2 (research timings: 80ms down, spring up). */
 @Composable
-internal fun Modifier.pressFeedback(
+fun Modifier.pressFeedback(
     interactionSource: MutableInteractionSource,
     enabled: Boolean = true,
 ): Modifier = this.pressScale(interactionSource, enabled)

@@ -74,6 +74,8 @@ libs/domain ◀── launcher/*, companion/*
    ▲
 libs/design ◀── launcher/*, companion/*     (Compose UI only)
    ▲
+launcher/control-center ◀── launcher/app  (overlay host, ADR-0036; also reads libs/config events)
+   ▲
 hooks/hooks-api ◀── launcher/*, hooks/*
    ▲
 hooks/hooks-common ◀── hooks/<surface>      (embedded at build time)

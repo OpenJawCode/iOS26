@@ -11,6 +11,7 @@ android {
 
 dependencies {
     implementation(project(":libs:design"))
+    implementation(project(":launcher:control-center"))
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.foundation)

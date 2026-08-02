@@ -94,6 +94,8 @@ private fun ErrorState(message: String) {
 private fun SpringboardHost(apps: List<AppInfo>) {
     val context = androidx.compose.ui.platform.LocalContext.current
     val colors = LocalTokenSet.current
+    val ccHost = remember(context) { dev.ios26.controlcenter.CcHost(context) }
+    LaunchedEffect(Unit) { ccHost.start() }
     var showCc by remember { mutableStateOf(false) }
     var showSettings by remember { mutableStateOf(false) }
     var showLibrary by remember { mutableStateOf(false) }
@@ -122,7 +124,8 @@ private fun SpringboardHost(apps: List<AppInfo>) {
         }
     }
 
-    // Gesture: swipe down from top edge opens Control Center (in-app until the LSPosed hook lands).
+    // Gesture: swipe down from top edge opens Control Center — via the overlay host when
+    // active (flag + overlay permission), else the in-app sheet fallback (ADR-0005).
     Box(
         Modifier
             .fillMaxSize()
@@ -134,7 +137,7 @@ private fun SpringboardHost(apps: List<AppInfo>) {
                         while (true) {
                             val event = awaitPointerEvent()
                             if (!opened && event.changes.any { change -> change.position.y - down.position.y > 100f }) {
-                                showCc = true
+                                if (ccHost.isActive()) ccHost.raise() else showCc = true
                                 opened = true
                             }
                             if (event.changes.all { !it.pressed }) break
@@ -144,7 +147,7 @@ private fun SpringboardHost(apps: List<AppInfo>) {
             },
     )
 
-    if (showCc) ControlCenterSheet(onDismiss = { showCc = false })
+    if (showCc && !ccHost.isActive()) ControlCenterSheet(onDismiss = { showCc = false })
     if (showSettings) SettingsSheet(onDismiss = { showSettings = false })
     if (selectedFolder != null) {
         FolderSheet(selectedFolder!!, onDismiss = { selectedFolder = null })

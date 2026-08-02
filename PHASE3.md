@@ -16,7 +16,7 @@ path**. Hook target from the survey (R5): `NotificationPanelViewController#onInt
 | Phase | Goal | Exit criterion |
 |---|---|---|
 | 3.1 LSPosed Modern API Foundation | Module skeleton, modern API, targeting, flags, crash protection, rollback | ✅ **DEVICE-VALIDATED 2026-08-02** — hook live in SystemUI, event bridge proven, rollback ×3 stock (reboot-persistence pending user-approved reboot) |
-| 3.2 Control Center / QS Replacement | Glass CC surface over Moto SystemUI QS | Top-right swipe → glass panel; QS preserved underneath; <8.33ms budget |
+| 3.2 Control Center / QS Replacement | Glass CC surface over Moto SystemUI QS | **BUILT 2026-08-03** — overlay host + surface (connectivity/brightness/volume/media/focus/quick-actions), gestures, haptics, a11y, flag-gated fallback; device attach verified (window+blur live); visual/gesture/jank validation pending device-available session (night-state interference) |
 | 3.3 Notification Surface | Presentation-only: cards, grouping, media, priority | Android behavior intact; only presentation replaced |
 | 3.4 System Panels | Volume/power/screenshot/dialogs where possible | Rollback-safe; Android functionality preserved |
 | 3.5 Springboard Prototype | Home surface (real apps): grid, dock, pages, wallpaper | Real-app grid on device; bridge to Phase 4 launcher |

@@ -46,14 +46,30 @@ class ConfigStore(
                 .getOrNull()
         }
 
-    /** Atomic event write (ADR-0019). Writers may be system processes (hooks) or apps. */
+    /**
+     * Atomic event write (ADR-0019). Writers may be system processes (hooks) or apps.
+     * Typed events map to `$type.json` in the events zone (3.2: cc-open/cc-close).
+     */
     fun writeEvent(type: String) {
         val event = Event(type = type, ts = clock.nowMillis())
-        AtomicWriter(eventsDir, "cc-open.json", log)
+        AtomicWriter(eventsDir, eventFileName(type), log)
             .write(json.encodeToString(Event.serializer(), event))
     }
 
-    fun eventFile(): File = File(eventsDir, "cc-open.json")
+    fun eventFile(type: String = "cc-open"): File = File(eventsDir, eventFileName(type))
+
+    /** Reads a typed event without consuming it. */
+    fun readEvent(type: String): Event? =
+        runCatching {
+            eventFile(type).takeIf { it.exists() }
+                ?.let { json.decodeFromString(Event.serializer(), it.readText()) }
+        }.onFailure { log.e(TAG, "event $type unreadable", it) }.getOrNull()
+
+    /** Reads AND deletes a typed event (events are ephemeral — ADR-0019). */
+    fun consumeEvent(type: String): Event? =
+        readEvent(type).also { eventFile(type).delete() }
+
+    private fun eventFileName(type: String): String = "$type.json"
 
     private companion object {
         const val STORE_ROOT_FILE = "store-root.json"

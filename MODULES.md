@@ -6,9 +6,15 @@
             | Module | Purpose | Depends on |
             |---|---|---|
             | `:benchmarks:macrobenchmark` | Macrobenchmark scaffold (androidx.benchmark) — **wired in Phase 8** with the performance budgets (ROADMAP Phase 8, ADR-0003 perf discipline). Currently an empty library so the module graph compiles from day one. | — |
-| `:launcher:app` | Empty application shell (D-P1.3): release/debug variants + benchmark target. Real UI lands in Phase 2. | — |
+| `:hooks:control-center` | CC surface hook (modern libxposed API, ADR-0032). Targets SystemUI only; flag-gated (default off); all-or-nothing rollback (ADR-0033). Entry: `ControlCenterModule` via `META-INF/xposed/java_init.list`, `module.prop` targetApiVersion=101. | :hooks:hooks-api, :hooks:hooks-common, :hooks:libxposed-api, :libs:config |
+| `:hooks:hooks-api` | The seam contract (ADR-0019/0033): HookCapability, FeatureFlags (default-off), HookEvents. Depended on by hooks and the launcher host. Pure Kotlin, no framework deps. | — |
+| `:hooks:hooks-common` | Shared hook infrastructure (ADR-0007): vendored **modern libxposed API** | :hooks:hooks-api, :libs:config |
+| `:hooks:libxposed-api` | Vendored **modern libxposed API** (`io.github.libxposed.api`, Apache-2.0) — the fork-supported module API (ADR-0032). **compileOnly only**: the framework provides these classes at runtime; packaging them into a module APK is rejected ("The Xposed API classes are compiled into the module APK"). | — |
+| `:launcher:app` | Empty application shell (D-P1.3): release/debug variants + benchmark target. Real UI lands in Phase 2. | :launcher:control-center, :libs:design |
 | `:launcher:baseline-prof` | Baseline profile scaffold — **wired in Phase 8** (androidx.baselineprofile; requires androidx, which the build opts out of until Compose lands in Phase 2). Empty module keeping the graph shape stable. | — |
+| `:launcher:control-center` | Phase 3.2 surface. The Control Center renders here as a root-granted overlay window in the | :libs:config, :libs:design |
 | `:libs:config` | **The deep module** (ADR-0006/0021): config store facade, atomic writes, poll watcher, store zones. Small interface, all behavior behind it. Depends on core + schema only. | :libs:core, :libs:schema |
 | `:libs:core` | Cross-cutting primitives with no domain meaning: `Clock` (injectable time), `Log` (ADR-0018 observability abstraction). Depends on nothing — the bottom of the graph. | — |
+| `:libs:design` | **The visual language every future module inherits** (Phase 2 mandate, PHASE2.md). | — |
 | `:libs:schema` | JSON Schema source of truth (D-P1.1) + validation via networknt 3.x. Schema files live in `src/main/schemas` (packaged as resources). Depends on nothing. | — |
 | `:libs:testing` | Shared Tier-1 test fixtures: `TempStore` (ADR-0021 zone layout, no SELinux), temp-dir helpers. Test-scope only. | — |
