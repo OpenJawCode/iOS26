@@ -75,6 +75,7 @@ abstract class DesignTokensTask : DefaultTask() {
                         out.appendLine("${" ".repeat((indent + 1) * 4)}val ${key.toCamelCase()}: Float = ${n}f")
                     }
                 }
+                is Boolean -> out.appendLine("${" ".repeat((indent + 1) * 4)}val ${key.toCamelCase()}: Boolean = $value")
                 is String -> emitString(out, key, value, indent + 1)
                 else -> error("Unsupported token value type for $key: ${value::class}")
             }

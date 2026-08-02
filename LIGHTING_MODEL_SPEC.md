@@ -4,6 +4,12 @@
 > catching surface edges** — shadow work is restrained; material strength and highlights carry
 > depth. This spec defines the token-driven lighting model for the design system.
 
+## 0. The z-stack (adopted from research)
+
+iOS states communicate by moving a 4-layer stack — **Shadow / Material / Content / Highlights**.
+Our model maps 1:1 (ShadowEngine / GlassEngine / content layer / specular+rim). Every future
+surface obeys this stack; state = z-movement (compress+spring, dim, expand).
+
 ## 1. Light sources (the model)
 
 1. **Key light — top-left, ~45°:** drives shadows (offset down-right) and the specular sheen

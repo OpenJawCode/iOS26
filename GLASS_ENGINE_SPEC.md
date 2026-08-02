@@ -23,26 +23,35 @@ For a glass surface over arbitrary content, the target composite is:
 
 - Radius per `GlassIntensity` (existing tokens), capped (`maxWindow`/`maxRenderEffect`).
 - **Missing today: the saturation/luminance pass** — Android blur alone darkens and desaturates;
-  Apple glass *lifts* saturation and brightens luminance behind the panel. Required: a vibrancy
-  layer drawn over the blurred backdrop using `BlendMode.SATURATION`/`LUMINOSITY` compositing
-  (Android `Paint` blend modes are available in Compose `drawWithContent`/`blendMode`).
+  Apple glass lifts saturation and brightens luminance. Research recipe (MATERIAL_RESEARCH §2):
+  **saturation boost 140–160% + luminance lift ~105%** over the blurred backdrop, via
+  `BlendMode.SATURATION`/`LUMINOSITY` compositing. Without this, blur reads as 2018 glassmorphism.
+- **Blur tier map (research):** Thin ~16–20px · Regular ~28–34px · Thick ~40–48px (bars) ·
+  Ultra-thick ~60–70px (modal). Our `Blur` tokens map: subtle≈Thin, standard≈Regular,
+  prominent≈Thick, heavy≈Ultra-thick. Each modal layer = one tier thicker.
+- **Edge-banded refraction (approximation):** refraction concentrates near edges, center calm.
+  v2 approximation: an edge-band highlight/offset brush (SDF-driven in Phase 8).
 - Perf: the vibrancy pass must be GPU-blended, single draw; budget unchanged (8.33ms).
 
 ## 3. Glass tint & dynamic adaptation
 
 - Tint comes from `glassFill`/`glassStroke` tokens per mode (exists).
-- **Add: tint bias toward the dominant backdrop color** (wallpaper accent, DynamicColorEngine) —
-  a fraction (`tintBias` token, e.g., 0.15) blended into the fill; this is the "glass adapts to
-  content" behavior.
+- **Add: content-adaptive tint** (research §8) — a tint generates a RANGE of tones mapped to
+  backdrop brightness (hue/brightness/saturation shift, luminosity-preserving blend for
+  colorful tints; flat-film only for white/black dimming). v2: `tintBias` (0.15) toward the
+  wallpaper accent + luminosity-preserving chroma shift.
+- **Adaptive shadow** (research §6): shadow opacity increases over text, decreases over light
+  backdrops — content-aware, the depth governor.
 - Intensity scales both blur radius AND fill alpha + highlight alpha (single token pair).
 
 ## 4. Highlights, rim & edge contrast
 
-- **Specular sheen:** linear gradient from top-left, white at ~8–14% alpha fading to 0 by
-  ~40% height (token: `specularStart`, `specularEnd`, `specularAngle`).
-- **Rim light:** 1dp inner edge stroke, light in dark mode (`glassHighlight`), dark in light
-  mode — defines the surface against the backdrop (exists as `glassStroke`; add inner-shadow
-  variant for depth).
+- **Specular sheen:** TWO opposite-angle edge highlights (Fresnel-style, research §4): primary
+  top-left gradient white 10–14% (light) / 14% (dark) fading by ~40% height; counter-pass at the
+  opposite angle at ~60% intensity. Rim term = edgeFactor²·⁵.
+- **Rim light / "cut glass" edge:** 1px inner border catching light — white ~20% (light) / 8%
+  (dark) (research §5); scroll edge effects (content blurs+fades under floating glass) replace
+  hard dividers.
 - **Edge contrast rule:** adjacent glass surfaces separate via stroke alpha, never via blur
   stacking (budget rule).
 

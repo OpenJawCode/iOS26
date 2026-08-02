@@ -26,8 +26,9 @@ reproducing those *behaviors* — not the assets.
   (scale + tint), release settles with a snappy spring, drags track 1:1 with velocity carry.
 - **Transitions are a vocabulary, not an afterthought:** entrance (decelerate, fade+scale in),
   exit (accelerate, faster), shared-element continuity where the OS allows (SpringBoard → app).
-- **Reduced motion & reduce-transparency are schemes, not flags:** tokens swap (multiplier 0.5,
-  glass → subtle/scrim). [MOTION_RESEARCH]
+- **Reduced motion = REPLACEMENT (cross-fade), not removal** (research §8): springs degrade to
+  cross-fades; reduce-transparency → frosty/solid glass. Both are token schemes, not flags.
+  [MOTION_RESEARCH]
 
 ## 4. Interaction language (v2)
 

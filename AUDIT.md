@@ -14,7 +14,7 @@
 | GlassEngine | **modify** | Flat fill + 1dp stroke is *flat* — needs specular, rim, tint-bias, vibrancy layers (GLASS_ENGINE_SPEC) |
 | BlurEngine/`Modifier.blur` | **keep** | Correct mechanism; missing the post-blur vibrancy pass |
 | ShadowEngine | **modify** | Single shadow per elevation; needs ambient+key split + DoF backdrop for modals (LIGHTING_MODEL_SPEC) |
-| MotionEngine | **keep + modify** | Curves/springs correct; needs transition presets (entrance/exit) + velocity-inheritance recipes |
+| MotionEngine | **keep + modify** | Springs were mis-tuned (0.7 vs research 1.0/0.8) — RETUNED in tokens; add transition presets + velocity recipes + 80/160ms press asymmetry |
 | HapticEngine | **keep** | Mapping sound; verify against research on timing |
 | Components (20) | **modify** | Structure correct; interactivity depth v1-lean: wire micro-interactions (press → state → motion), add transitions |
 | Gallery | **keep** | The canary; extend with colored backdrops + lighting demo surfaces |
