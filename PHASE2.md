@@ -100,3 +100,37 @@ libs/design/                     NEW module (D-P2.3 convention: ios26.library + 
 ## 8. Phase-end deliverables
 
 Updated ADRs · Design Review · Motion Review · Token documentation · Performance considerations · Remaining risks · Technical debt · Phase summary · **Explicit Phase 3 recommendation** (never automatic).
+
+---
+
+## 9. Phase-end report (2026-08-02)
+
+### Delivered (all token-driven; nothing hardcoded)
+- **Token system:** tokens.json (213 values, schema-validated) → generated Tokens.kt (D-P2.4); color/type/spacing/radius/elevation/blur/zIndex/grid/motion/haptics/state groups.
+- **ThemeEngine:** TokenSet light/dark, glass intensity (R3 slider analog), reduced motion, dynamic wallpaper accent (Palette, off-thread).
+- **Engines:** Glass (window blur API-31 + Modifier.blur + scrim fallback, budget caps), Shadow, Motion (curves/springs/durations token-resolved), Haptic (iOS→VibrationEffect mapping), DynamicColor.
+- **Component library v1:** all 20 required components, semantic-token-only, press feedback + haptics + roles + 48dp targets.
+- **Springboard spec:** grid math as tokens (6 cols, 60dp icons, squircle 0.2237, dock/folders/pages).
+- **Interactive prototype:** GalleryActivity runs on the device (light/dark, window blur, working switches/sliders).
+- **Performance:** budgets defined pre-feature (8.33ms @120Hz, blur caps, overdraw rule); first baseline measured (gallery 22ms median worst-case); one finding fixed (palette off main thread).
+- **Docs:** TOKENS/MOTION/COMPONENTS/PERFORMANCE/DESIGN_REVIEW + ADRs 0022–0026 (26 total).
+
+### Design & motion reviews
+See DESIGN_REVIEW.md (every decision: rationale/alternatives/trade-offs/maintenance, doctrine cited) and MOTION.md (principles + specs).
+
+### Remaining risks
+1. Real per-screen budgets need real screens (Phase 3) — gallery is the canary.
+2. Component depth is v1-lean; deepened per surface phase.
+3. Screenshot baselines deferred to the Phase 3 CI AVD job.
+4. Fork module API (Phase 3 hook) — tracked since R7.
+
+### Technical debt
+- Gallery window-blur timing workaround (decor post) — revisit with proper window setup in Phase 3.
+- `pressFeedback` scale-only (overlay token exists, unused) — wire when CC panel renders.
+- Generator is narrow (tokens only) — by design, documented.
+
+### Recommendation
+**READY FOR PHASE 3 — LSPosed Framework.** The visual language is defined, tokenized, measured
+and interactive on the device. Phase 3 can focus on the hook seam (modern libxposed API, R7) and
+the Control Center overlay using the validated GlassEngine. **Phase 3 must not begin without
+explicit approval.**
