@@ -93,6 +93,18 @@ object HapticEngine {
         else -> android.os.VibrationEffect.EFFECT_CLICK
     }
 
+    /** Composable helper — resolves context from composition. */
+    @androidx.compose.runtime.Composable
+    fun perform(type: String) {
+        perform(androidx.compose.ui.platform.LocalContext.current, type)
+    }
+
+    @androidx.compose.runtime.Composable
+    fun performSelection() = perform(dev.ios26.design.tokens.Tokens.Haptics.selection)
+
+    @androidx.compose.runtime.Composable
+    fun performButtonClick() = perform(dev.ios26.design.tokens.Tokens.Haptics.medium)
+
     fun perform(context: android.content.Context, type: String) {
         if (android.os.Build.VERSION.SDK_INT >= 30) {
             val vibrator = context.getSystemService(android.content.Context.VIBRATOR_MANAGER_SERVICE)
