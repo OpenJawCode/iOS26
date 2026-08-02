@@ -8,6 +8,7 @@ dependencies {
     // Convention plugins compile against the toolchain plugins they apply.
     implementation("com.android.tools.build:gradle:9.3.1")
     implementation("org.jetbrains.kotlin:kotlin-serialization:2.4.10")
+    implementation("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.4.10")
     implementation("io.gitlab.arturbosch.detekt:detekt-gradle-plugin:1.23.8")
     implementation("org.jlleitschuh.gradle.ktlint:org.jlleitschuh.gradle.ktlint.gradle.plugin:12.1.2")
 }
@@ -29,6 +30,10 @@ gradlePlugin {
         create("ios26Testing") {
             id = "ios26.testing"
             implementationClass = "dev.ios26.buildlogic.Ios26TestingConventionPlugin"
+        }
+        create("ios26Design") {
+            id = "ios26.design"
+            implementationClass = "dev.ios26.buildlogic.Ios26DesignConventionPlugin"
         }
         create("ios26Architecture") {
             id = "ios26.architecture"
