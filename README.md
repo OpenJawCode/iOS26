@@ -1,6 +1,6 @@
 # iOS26 — An iOS 26/27-inspired Android experience for the Motorola Edge 20
 
-**Status: Phase 0 — Discovery** · **License: GPL-3.0** · **Target: stock Motorola Edge 20, Android 13 (API 33), rooted (Magisk + Zygisk)**
+**Status: Phase 1 — Architecture & Toolchain** (foundation built, Phase 2 pending approval) · **License: GPL-3.0** · **Target: stock Motorola Edge 20, Android 13 (API 33), rooted (Magisk + Zygisk)**
 
 iOS26 is an open-source, production-quality engineering project that recreates the iOS 26/27 experience on a stock rooted Motorola Edge 20. It is **not a theme** and it is **not a launcher skin** — it is a modular stack of cooperating components: a Compose launcher, LSPosed system hooks, Magisk provisioning, RRO overlays, a companion settings app, and a WebUI — coordinated by a single schema-validated configuration store.
 
@@ -28,11 +28,11 @@ The design language anchors on **iOS 26 Liquid Glass**, rendered through a fully
 
 ## Quick start
 
-> The repository is currently in **Phase 0 (Discovery)**. There is no buildable code yet — the Gradle toolchain is bootstrapped in Phase 1. See [ROADMAP.md](ROADMAP.md).
+> Phase 1 has built the production foundation: convention plugins, version catalog, the deep module (`libs/config`), schema-first validation, architecture gate, CI. No features yet — UI starts in Phase 2. See [ROADMAP.md](ROADMAP.md) and [PHASE1.md](PHASE1.md).
 
 ```
-# Once Phase 1 lands:
-./gradlew :launcher:app:installDebug
+./gradlew build            # full verification (lint included)
+./gradlew testDebugUnitTest ktlintCheck detekt architectureValidate
 ```
 
 ## Read first
@@ -43,6 +43,9 @@ The design language anchors on **iOS 26 Liquid Glass**, rendered through a fully
 | [ROADMAP.md](ROADMAP.md) | Milestone roadmap — Phases 0–10 with exit criteria |
 | [CONTEXT.md](CONTEXT.md) | Ubiquitous language glossary + decision log (living document) |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute: conventions, testing tiers, docs standards |
+| [BUILD.md](BUILD.md) | Building: prerequisites, tasks, ARM64 aapt2 note, locking |
+| [DEVELOPMENT.md](DEVELOPMENT.md) | Daily workflow: decision gate, testing tiers, toolchain conventions |
+| [MODULES.md](MODULES.md) | Module index (generated) |
 | `docs/adr/` | Architecture Decision Records — every significant decision, dated and reasoned |
 | `docs/conventions.md` | Coding conventions (Kotlin/Compose, TS, schema, commits) |
 | `docs/testing.md` | Testing strategy (three tiers) |

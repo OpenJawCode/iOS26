@@ -99,6 +99,15 @@ When a session's context is exhausted mid-task: write a handoff note under `docs
 
 1. Tier 1 + 2 tests green for the change.
 2. ktlint/detekt clean (Kotlin), eslint/tsc clean (TS).
-3. Docs updated if terms/decisions/APIs changed.
-4. No secrets, no Apple IP, no unrelated reformatting.
-5. Conventional commit message.
+3. Architecture gate: `./gradlew architectureValidate` (dependency edges, README anchors).
+4. `MODULES.md` regenerated if the module graph changed (`./gradlew generateModulesDoc`).
+5. Docs updated if terms/decisions/APIs changed.
+6. No secrets, no Apple IP, no unrelated reformatting.
+7. Conventional commit message.
+
+## 9. Build facts (Phase 1)
+
+- AGP 9 **built-in Kotlin** — never apply `kotlin-android`; versions only via `gradle/libs.versions.toml`.
+- Fast gates: `./gradlew testDebugUnitTest ktlintCheck detekt architectureValidate` (BUILD.md).
+- `lint` is CI-only (slow); config cache + build cache are on; dependency lockfiles committed.
+- ARM64 host runs x86_64 aapt2 via qemu binfmt (BUILD.md) — do not "fix" it.

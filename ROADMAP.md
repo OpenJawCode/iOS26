@@ -1,6 +1,6 @@
 # ROADMAP.md — Milestone Roadmap
 
-> Status: **Phase 0 in progress** (started 2026-08-01). Phases are sequential; exit criteria must be met before the next phase opens. Every phase has an owner (AGENTS.md §2) and updates CONTEXT.md + ADRs as it learns.
+> Status: **Phase 1 in progress** (Phase 0 closed 2026-08-02; Phase 1 opened same day). Phases are sequential; exit criteria must be met before the next phase opens. Every phase has an owner (AGENTS.md §2) and updates CONTEXT.md + ADRs as it learns.
 
 ## Phase 0 — Discovery *(current)*
 
@@ -18,15 +18,19 @@
 
 **Exit:** every open question answered or deferred with a named owner; risk register reviewed by the user.
 
-## Phase 1 — Architecture & Toolchain
+## Phase 1 — Architecture & Toolchain *(in progress)*
 
 **Goal:** A green, bootstrapped monorepo with the deep modules in place.
 
-- Gradle wrapper + version catalog; settings wiring `:launcher/* :hooks/* :libs/* :companion/*`; `libs/schema` codegen pipeline (JSON Schema → Kotlin, and → TS via npm workspace); `libs/config` skeleton with full Tier 1 tests.
-- CI armed: unit + lint + AVD + WebUI jobs (docs/ci.md), release workflow scaffolded.
-- ADR finalization pass; repository conventions docs ratified.
+- ✅ Foundation: Gradle 9.6.1 wrapper, version catalog (all pins), AGP 9.3.1 built-in Kotlin convention plugins (`ios26.library/application/quality/testing/architecture`).
+- ✅ `libs/core`, `libs/schema` (schema-first + networknt validation), `libs/config` (deep module skeleton, ADR-0021 zones), `libs/testing`; Tier-1 suites green (16 tests).
+- ✅ `launcher/app` empty shell (variants + benchmark target), benchmark/baseline-prof scaffolds.
+- ✅ Architecture gate (`architectureValidate`), MODULES.md generation, config cache + build cache + dependency locking.
+- ✅ CI armed: unit / quality / architecture / build jobs.
+- ✅ ARM64 lab solved (aapt2 via qemu binfmt — BUILD.md).
+- ⏳ Remaining: AVD jobs arm in Phase 2 (no UI yet); release signing secrets; docs final pass; phase-exit review → Phase 2 recommendation.
 
-**Exit:** `./gradlew build` green on an empty-but-wired build; CI green on a PR; codegen freshness check in CI.
+**Exit:** `./gradlew build` green; CI green on main; tooling verdicts recorded (PHASE1.md §3); phase summary + explicit Phase 2 recommendation.
 
 ## Phase 2 — Launcher
 
