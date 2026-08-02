@@ -19,7 +19,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.ios26.design.engines.glassSurface
+import dev.ios26.design.engines.glassMaterial
+import dev.ios26.design.engines.glassLighting
 import dev.ios26.design.theme.LocalTokenSet
 import dev.ios26.design.tokens.Tokens
 
@@ -38,7 +39,7 @@ fun NavigationBar(
     Row(
         modifier
             .fillMaxWidth()
-            .glassSurface(RoundedCornerShape(topStart = Tokens.Radius.sheet, topEnd = Tokens.Radius.sheet))
+            .glassMaterial(RoundedCornerShape(topStart = Tokens.Radius.sheet, topEnd = Tokens.Radius.sheet)).glassLighting(RoundedCornerShape(topStart = Tokens.Radius.sheet, topEnd = Tokens.Radius.sheet))
             .padding(vertical = Tokens.Spacing.sm),
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
@@ -75,7 +76,8 @@ fun Dock(
             .fillMaxWidth()
             .padding(horizontal = Tokens.Grid.dockMargin)
             .height(Tokens.Grid.dockHeight)
-            .glassSurface(RoundedCornerShape(Tokens.Radius.largeCard)),
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.largeCard))
+            .glassLighting(RoundedCornerShape(Tokens.Radius.largeCard)),
         horizontalArrangement = androidx.compose.foundation.layout.Arrangement.SpaceEvenly,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -98,6 +100,7 @@ fun QuickSettingsTile(
         modifier
             .clip(RoundedCornerShape(Tokens.Radius.card))
             .background(if (active) colors.accent else colors.glassFill)
+            .glassLighting(RoundedCornerShape(Tokens.Radius.card))
             .padding(Tokens.Spacing.m)
             .clickableNoRipple(onClick),
     ) {
@@ -118,7 +121,8 @@ fun ControlCenterCard(
     val colors = LocalTokenSet.current
     Column(
         modifier
-            .glassSurface(RoundedCornerShape(Tokens.Radius.largeCard))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.largeCard))
+            .glassLighting(RoundedCornerShape(Tokens.Radius.largeCard))
             .padding(Tokens.Spacing.l),
     ) {
         androidx.compose.foundation.text.BasicText(title, style = TitleStyle.copy(color = colors.labelSecondary))

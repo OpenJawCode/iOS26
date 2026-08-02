@@ -1,7 +1,7 @@
 # TOKENS.md — Design Token Documentation
 
 > Source of truth: `libs/design/tokens/tokens.json` (schema-validated via `libs/schema` — D-P2.4).
-> Generated: `Tokens.kt` via `:libs:design:generateDesignTokens` (213 values; CI checks freshness).
+> Generated: `Tokens.kt` via `:libs:design:generateDesignTokens` (250+ values (material/specular/vibrancy/tintBias/refraction/transition/state); CI checks freshness).
 > **Nothing is hardcoded. Every visual value in the project derives from these tokens.**
 
 ## 1. Architecture

@@ -32,9 +32,9 @@
 
 | Token | damping | stiffness | Use |
 |---|---|---|---|
-| `standard` | 0.7 | 300 | generic UI springs |
-| `snappy` | 0.5 | 500 | press feedback, switches |
-| `gentle` | 0.9 | 150 | sheets, large surfaces |
+| `standard` | 1.0 | 320 | generic UI springs (research-retuned) |
+| `snappy` | 1.0 | 700 | press feedback, switches |
+| `gentle` | 0.8 | 180 | sheets, large surfaces (momentum) |
 
 ## 4. Gesture language (spec)
 

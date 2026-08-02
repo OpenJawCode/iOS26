@@ -12,20 +12,20 @@
 | `Switch` | accent, radius, motion.spring.standard, haptics.selection | 51×31dp iOS proportions |
 | `Slider` | accent, backgroundTertiary, touchTarget | iOS 4dp track |
 | `Toggle` | accent, radius.small, haptics.selection | check/plus row item |
-| `Card` | glassSurface, radius.card, elevation, type | glass card |
+| `Card` | GlassPanel pipeline (ADR-0028), radius.card, elevation, type | glass card |
 | `ListItem` | labelPrimary/Secondary, separators | settings-row shape |
 | `Sheet` | radius.sheet (top), sheetBackground, grabber | token grabber bar |
-| `Popover` | glassSurface, radius.card | scales from trigger (emil doctrine) |
-| `NavigationBar` | glassSurface, accent, labelSecondary | iOS tab bar |
-| `Dock` | glassSurface, radius.largeCard, grid.dock* | springboard dock |
+| `Popover` | GlassPanel pipeline (ADR-0028), radius.card | scales from trigger (emil doctrine) |
+| `NavigationBar` | GlassPanel pipeline (ADR-0028), accent, labelSecondary | iOS tab bar |
+| `Dock` | GlassPanel pipeline (ADR-0028), radius.largeCard, grid.dock* | springboard dock |
 | `QuickSettingsTile` | accent (active), glassFill, radius.card | CC grid tile |
-| `ControlCenterCard` | glassSurface, radius.largeCard, labelSecondary | CC card w/ content |
-| `Notification` | glassSurface, radius.card, labelPrimary/Secondary | banner |
-| `ContextMenu` | glassSurface, radius.card, labelPrimary | action list |
+| `ControlCenterCard` | GlassPanel pipeline (ADR-0028), radius.largeCard, labelSecondary | CC card w/ content |
+| `Notification` | GlassPanel pipeline (ADR-0028), radius.card, labelPrimary/Secondary | banner |
+| `ContextMenu` | GlassPanel pipeline (ADR-0028), radius.card, labelPrimary | action list |
 | `AppIcon` | grid.iconSize, radius.squircleFactor, type.Caption1 | squircle per iOS ratio |
 | `SearchField` | backgroundTertiary, radius.pill, labelTertiary | Spotlight field |
-| `Folder` | glassSurface, radius.largeCard, grid.folder* | 3×3 grid |
-| `WidgetFrame` | glassSurface, radius.largeCard | non-tinting widget framing (survey R8) |
+| `Folder` | GlassPanel pipeline (ADR-0028), radius.largeCard, grid.folder* | 3×3 grid |
+| `WidgetFrame` | GlassPanel pipeline (ADR-0028), radius.largeCard | non-tinting widget framing (survey R8) |
 | `LockScreenComponent` | type.LargeTitle/Footnote, labelPrimary/Secondary | clock+date scaffold |
 | `Toggle`+`Slider`+… | — | interactive in Gallery |
 

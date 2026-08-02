@@ -34,10 +34,10 @@ import dev.ios26.design.components.Switch
 import dev.ios26.design.components.Toggle
 import dev.ios26.design.components.WidgetFrame
 import dev.ios26.design.engines.DynamicColorEngine
-import dev.ios26.design.engines.GlassEngine
+import dev.ios26.design.engines.blurRadiusFor
 import dev.ios26.design.engines.applyGlassBlur
 import dev.ios26.design.engines.blurBackdrop
-import dev.ios26.design.engines.elevation
+
 import dev.ios26.design.theme.Ios26Theme
 import dev.ios26.design.tokens.Tokens
 
@@ -50,7 +50,7 @@ class GalleryActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         window.decorView.post {
-            applyGlassBlur(GlassEngine.blurRadiusFor(dev.ios26.design.theme.GlassIntensity.Standard))
+            applyGlassBlur(blurRadiusFor(dev.ios26.design.theme.GlassIntensity.Standard))
         }
         setContent {
             Ios26Theme {

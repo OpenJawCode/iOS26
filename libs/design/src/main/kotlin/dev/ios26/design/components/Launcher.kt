@@ -22,7 +22,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.ios26.design.engines.glassSurface
+import dev.ios26.design.engines.glassMaterial
+import dev.ios26.design.engines.glassLighting
 import dev.ios26.design.theme.LocalTokenSet
 import dev.ios26.design.tokens.Tokens
 
@@ -41,7 +42,7 @@ fun Notification(
     Row(
         modifier
             .fillMaxWidth()
-            .glassSurface(RoundedCornerShape(Tokens.Radius.card))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.card)).glassLighting(RoundedCornerShape(Tokens.Radius.card))
             .padding(Tokens.Spacing.l),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -64,7 +65,7 @@ fun ContextMenu(
     val colors = LocalTokenSet.current
     Column(
         modifier
-            .glassSurface(RoundedCornerShape(Tokens.Radius.card))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.card)).glassLighting(RoundedCornerShape(Tokens.Radius.card))
             .padding(vertical = Tokens.Spacing.xs),
     ) {
         items.forEach { item ->
@@ -132,7 +133,7 @@ fun Folder(
     val columns = Tokens.Grid.folderColumns
     Column(
         modifier
-            .glassSurface(RoundedCornerShape(Tokens.Radius.largeCard))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.largeCard)).glassLighting(RoundedCornerShape(Tokens.Radius.largeCard))
             .padding(Tokens.Spacing.l),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
@@ -160,7 +161,7 @@ fun WidgetFrame(
 ) {
     Box(
         modifier
-            .glassSurface(RoundedCornerShape(Tokens.Radius.largeCard))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.largeCard)).glassLighting(RoundedCornerShape(Tokens.Radius.largeCard))
             .padding(Tokens.Spacing.m),
     ) {
         content()

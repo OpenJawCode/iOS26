@@ -66,6 +66,9 @@ Budgets defined before features (PERFORMANCE.md); first baseline recorded (galle
 first-launch worst-case); one real finding fixed (palette off main thread). No premature
 optimization: per-screen budgets are enforceable only when screens exist (Phase 3).
 
+## 8.5 Phase 2.6 result
+GlassEngine v2 + MotionEngine v2 + component rewiring shipped (ADR-0027–0031). Gallery measures 25ms median; lighting + vibrancy layers live; per-surface budgets deferred to Phase 3 screens.
+
 ## 9. Remaining risks & debt
 
 | Risk/Debt | Owner | Mitigation |

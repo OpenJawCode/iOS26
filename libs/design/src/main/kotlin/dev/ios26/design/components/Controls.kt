@@ -34,6 +34,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import dev.ios26.design.engines.HapticEngine
 import dev.ios26.design.engines.MotionEngine
+import dev.ios26.design.engines.pressScale
 import dev.ios26.design.theme.LocalTokenSet
 import dev.ios26.design.theme.ThemeMode
 import dev.ios26.design.tokens.Tokens
@@ -50,24 +51,12 @@ internal fun pressedOverlay(mode: ThemeMode): Color = when (mode) {
     ThemeMode.Dark -> Tokens.State.pressedOverlayDark
 }
 
-/** Press feedback modifier: overlay + scale via motion springs (response on press). */
+/** Press feedback via MotionEngine v2 (research timings: 80ms down, spring up). */
 @Composable
 internal fun Modifier.pressFeedback(
     interactionSource: MutableInteractionSource,
     enabled: Boolean = true,
-): Modifier {
-    val pressed by interactionSource.collectIsPressedAsState()
-    val scale by animateFloatAsState(
-        targetValue = if (pressed && enabled) 0.97f else 1f,
-        animationSpec = MotionEngine.spring("snappy"),
-        label = "pressScale",
-    )
-    return this
-        .graphicsLayerScale(scale)
-}
-
-private fun Modifier.graphicsLayerScale(scale: Float): Modifier =
-    this.graphicsLayer { this.scaleX = scale; this.scaleY = scale }
+): Modifier = this.pressScale(interactionSource, enabled)
 
 /** iOS-style button: accent fill, token type, press feedback, haptic on click. */
 @Composable

@@ -69,7 +69,7 @@ abstract class DesignTokensTask : DefaultTask() {
                 }
                 is Number -> {
                     val n = value.toDouble()
-                    if (n == n.toLong().toDouble()) {
+                    if (n == n.toLong().toDouble() && !value.toString().contains(".")) {
                         out.appendLine("${" ".repeat((indent + 1) * 4)}val ${key.toCamelCase()}: Int = ${n.toLong()}")
                     } else {
                         out.appendLine("${" ".repeat((indent + 1) * 4)}val ${key.toCamelCase()}: Float = ${n}f")

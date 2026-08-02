@@ -18,7 +18,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import dev.ios26.design.engines.glassSurface
+import dev.ios26.design.engines.glassLighting
+import dev.ios26.design.engines.glassMaterial
 import dev.ios26.design.theme.LocalTokenSet
 import dev.ios26.design.tokens.Tokens
 
@@ -39,7 +40,7 @@ fun Card(
     Column(
         modifier
             .fillMaxWidth()
-            .glassSurface(RoundedCornerShape(Tokens.Radius.card))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.card)).glassLighting(RoundedCornerShape(Tokens.Radius.card))
             .padding(Tokens.Spacing.l),
     ) {
         androidx.compose.foundation.text.BasicText(
@@ -117,7 +118,7 @@ fun Popover(
     val colors = LocalTokenSet.current
     Box(
         modifier
-            .glassSurface(RoundedCornerShape(Tokens.Radius.card))
+            .glassMaterial(RoundedCornerShape(Tokens.Radius.card)).glassLighting(RoundedCornerShape(Tokens.Radius.card))
             .padding(Tokens.Spacing.l),
     ) {
         content()
