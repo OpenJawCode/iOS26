@@ -19,10 +19,19 @@ class HookContext(
     val flags: FeatureFlags,
 )
 
-/** File-based feature flags (ADR-0035): default OFF. Absent/missing file = everything off. */
+/**
+ * File-based feature flags (ADR-0035): default OFF. Absent/missing file = everything off.
+ * Validation fallback: /data/local/tmp (proven readable in Phase 0) until the Phase-4
+ * sepolicy grants the shared store to platform_app.
+ */
 class FeatureFlags(private val basePath: String) {
+    private val fallbackPath = "/data/local/tmp/ios26/flags"
     fun isEnabled(surface: String): Boolean =
-        runCatching { java.io.File(basePath, "$surface.flag").exists() }.getOrDefault(false)
+        file(surface).exists()
+    fun file(surface: String): java.io.File =
+        java.io.File(basePath, "$surface.flag")
+            .takeIf { it.exists() }
+            ?: java.io.File(fallbackPath, "$surface.flag")
 }
 
 /** Typed event names (ADR-0019) — written to the shared-store events dir by hooks. */

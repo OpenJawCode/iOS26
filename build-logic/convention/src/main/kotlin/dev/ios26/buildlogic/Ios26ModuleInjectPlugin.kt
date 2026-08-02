@@ -17,6 +17,13 @@ class Ios26ModuleInjectPlugin : Plugin<Project> {
                 target.layout.projectDirectory.file("src/main/resources/META-INF/xposed/scope.list"),
             )
             apkFile.set(target.layout.buildDirectory.file("outputs/apk/debug/${target.name}-debug.apk"))
+            keystorePath.set(System.getProperty("user.home") + "/.android/debug.keystore")
+            apksignerPath.set(
+                System.getenv("ANDROID_HOME") + "/build-tools/36.0.0/apksigner",
+            )
+            zipalignPath.set(
+                System.getenv("ANDROID_HOME") + "/build-tools/36.0.0/zipalign",
+            )
         }
         target.tasks.matching { it.name.contains("assemble") }.configureEach {
             finalizedBy(inject)

@@ -5,5 +5,4 @@ plugins {
 dependencies {
     implementation(project(":libs:config"))
     implementation(project(":hooks:hooks-api"))
-    compileOnly(libs.androidx.annotation)
 }

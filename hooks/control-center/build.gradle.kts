@@ -27,6 +27,7 @@ dependencies {
     implementation(project(":hooks:hooks-common"))
     implementation(project(":hooks:hooks-api"))
     implementation(project(":libs:config"))
+    compileOnly(project(":hooks:libxposed-api"))
 }
 
 // Modern module metadata (ADR-0032): injected by the ios26.module-inject plugin (META-INF/xposed/*).

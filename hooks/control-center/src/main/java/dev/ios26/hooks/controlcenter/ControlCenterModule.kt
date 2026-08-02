@@ -25,12 +25,32 @@ class ControlCenterModule : XposedModule() {
         if (!flags.isEnabled("control-center")) return
 
         @Suppress("TooGenericExceptionCaught") // ADR-0033: all-or-nothing crash protection
+        if (flags.isEnabled("force-hook-failure")) {
+            throw IllegalStateException("validation: forced hook failure")
+        }
         try {
             val cls = param.defaultClassLoader.loadClass(
                 "com.android.systemui.statusbar.phone.NotificationPanelViewController",
             )
-            val method = cls.getDeclaredMethod("onInterceptTouchEvent", MotionEvent::class.java)
-            hook(method).intercept(TouchInterceptor())
+            val method = findMethod(cls, "onQsIntercept", MotionEvent::class.java)
+            if (method != null) hook(method).intercept(TouchInterceptor())
+            // View-level intercept: the status-bar pull path (survey R5 chain).
+            val viewClass = runCatching {
+                param.defaultClassLoader.loadClass(
+                    "com.android.systemui.statusbar.phone.NotificationPanelView",
+                )
+            }.getOrNull()
+            if (viewClass != null) {
+                val viewMethod = findMethod(viewClass, "onInterceptTouchEvent", MotionEvent::class.java)
+                if (viewMethod != null) hook(viewMethod).intercept(TouchInterceptor())
+            }
+            // QS touch path (runtime probe: handleQsTouch on the controller).
+            val qsTouch = findMethod(cls, "handleQsTouch", MotionEvent::class.java)
+            if (qsTouch != null) hook(qsTouch).intercept(TouchInterceptor())
+            if (method == null && viewClass == null && qsTouch == null) {
+                probeTouchMethods(cls)
+                error("no hookable target found")
+            }
             hooksActive = true
             log("hooks active")
         } catch (t: Throwable) {
@@ -45,6 +65,7 @@ class ControlCenterModule : XposedModule() {
         @Suppress("ReturnCount") // guard clauses are the contract
         override fun intercept(chain: XposedInterface.Chain): Any? {
             val ev = chain.args.firstOrNull() as? MotionEvent ?: return chain.proceed()
+            log("onQsIntercept: action=${ev.actionMasked} x=${ev.rawX} y=${ev.rawY}")
             if (ev.actionMasked == MotionEvent.ACTION_DOWN) {
                 val x = ev.rawX
                 val y = ev.rawY
@@ -58,9 +79,46 @@ class ControlCenterModule : XposedModule() {
         }
 
         private fun writeEvent() {
+            val root = java.io.File("/data/adb/ios26")
+            val store = if (root.canWrite()) {
+                dev.ios26.config.ConfigStore(root)
+            } else {
+                dev.ios26.config.ConfigStore(java.io.File("/data/local/tmp/ios26"))
+            }
             runCatching {
-                dev.ios26.config.ConfigStore(java.io.File("/data/adb/ios26")).writeEvent(HookEvents.CC_OPEN)
+                store.writeEvent(HookEvents.CC_OPEN)
+                log("event written")
             }.onFailure { log("event write failed: $it") }
+        }
+    }
+
+    /** Finds a method across the class hierarchy (Moto may redeclare in a superclass). */
+    private fun findMethod(cls: Class<*>, name: String, vararg params: Class<*>): java.lang.reflect.Method? {
+        var current: Class<*>? = cls
+        while (current != null) {
+            runCatching { current.getDeclaredMethod(name, *params)?.let { return it } }
+            current = current.superclass
+        }
+        // Fallback: match by name + arity across the hierarchy (OEM naming drift).
+        var walk: Class<*>? = cls
+        while (walk != null) {
+            walk.declaredMethods.firstOrNull { it.name == name && it.parameterCount == params.size }
+                ?.let { return it }
+            walk = walk.superclass
+        }
+        return null
+    }
+
+    /** Diagnostic: dump touch/intercept-related methods from the hierarchy. */
+    private fun probeTouchMethods(cls: Class<*>) {
+        var current: Class<*>? = cls
+        while (current != null) {
+            runCatching {
+                current.declaredMethods
+                    .filter { it.name.contains("ouch") || it.name.contains("ntercept") || it.name.contains("Touch") }
+                    .forEach { log("PROBE ${current.name}.${it.name}(${it.parameterTypes.joinToString { p -> p.simpleName }})") }
+            }
+            current = current.superclass
         }
     }
 
