@@ -30,5 +30,9 @@ gradlePlugin {
             id = "ios26.testing"
             implementationClass = "dev.ios26.buildlogic.Ios26TestingConventionPlugin"
         }
+        create("ios26Architecture") {
+            id = "ios26.architecture"
+            implementationClass = "dev.ios26.buildlogic.Ios26ArchitectureConventionPlugin"
+        }
     }
 }

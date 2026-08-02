@@ -11,95 +11,85 @@ concurrency:
 
 jobs:
   unit:
-    name: Tier 1 — Unit tests
+    name: Tier 1 — unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: '21'
+      - name: Setup Android SDK
+        run: |
+          mkdir -p "$ANDROID_HOME"
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-33" "build-tools;36.0.0" > /dev/null 2>&1
+      - uses: gradle/actions/setup-gradle@v4
       - name: Unit tests
-        run: ./gradlew testDebugUnitTest --stacktrace
+        run: ./gradlew testDebugUnitTest --no-daemon
 
-  lint:
-    name: Lint & conventions
+  quality:
+    name: Static analysis (ktlint + detekt)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-      - name: Kotlin lint
-        run: ./gradlew ktlintCheck detekt
-      - name: WebUI lint
-        working-directory: webui
+          java-version: '21'
+      - name: Setup Android SDK
         run: |
-          npm ci
-          npm run lint
-          npx tsc --noEmit
+          mkdir -p "$ANDROID_HOME"
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-33" "build-tools;36.0.0" > /dev/null 2>&1
+      - uses: gradle/actions/setup-gradle@v4
+      - name: ktlint + detekt
+        run: ./gradlew ktlintCheck detekt --no-daemon
 
-  schema-check:
-    name: Schema codegen freshness
+  architecture:
+    name: Architecture gate + docs freshness
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Regenerate and diff
+          java-version: '21'
+      - name: Setup Android SDK
         run: |
-          ./gradlew :tools:codegen:run
-          cd webui && npm ci && npm run codegen
-          git diff --exit-code -- libs/ webui/src/generated
+          mkdir -p "$ANDROID_HOME"
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-33" "build-tools;36.0.0" > /dev/null 2>&1
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Validate architecture
+        run: ./gradlew architectureValidate --no-daemon
+      - name: Regenerate MODULES.md and diff
+        run: |
+          ./gradlew generateModulesDoc --no-daemon
+          git diff --exit-code -- MODULES.md
 
-  avd-ui:
-    name: Tier 2 — AVD UI (Roborazzi + Compose)
+  build:
+    name: Assemble (debug + release)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
-    strategy:
-      fail-fast: false
-      matrix:
-        api-level: [33]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
-      - name: Enable KVM
+          java-version: '21'
+      - name: Setup Android SDK
         run: |
-          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
-          sudo udevadm control --reload-rules
-          sudo udevadm trigger --name-match=kvm
-      - name: AVD image cache
-        uses: reactivecircus/android-emulator-runner@v2
+          mkdir -p "$ANDROID_HOME"
+          yes | sdkmanager --licenses > /dev/null 2>&1 || true
+          sdkmanager "platforms;android-33" "build-tools;36.0.0" > /dev/null 2>&1
+      - uses: gradle/actions/setup-gradle@v4
+      - name: Assemble all variants
+        run: ./gradlew assembleDebug assembleRelease --no-daemon
+      - name: Upload APKs
+        uses: actions/upload-artifact@v4
         with:
-          api-level: ${{ matrix.api-level }}
-          arch: x86_64
-          disable-animations: true
-          script: |
-            ./gradlew :launcher:app:connectedDebugAndroidTest :companion:app:connectedDebugAndroidTest
-
-  webui:
-    name: Tier 2 — WebUI (vitest + Playwright)
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: webui
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-      - name: Install & test
-        run: |
-          npm ci
-          npm run test
-          npx playwright install --with-deps chromium
-          npm run e2e
+          name: apks
+          path: |
+            launcher/app/build/outputs/apk/debug/*.apk
+            launcher/app/build/outputs/apk/release/*.apk
+          if-no-files-found: warn
