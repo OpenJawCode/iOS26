@@ -50,6 +50,7 @@ Full reasoning in `docs/adr/`.
 | D16 | Widgets = full AppWidgetHost in v1, iOS-styled slots, platform tinting where possible | ADR-0015 |
 | D17 | App Library = auto-categories with bundled localized mapping + per-app overrides; Spotlight = apps + contacts + actions, offline | ADR-0016 |
 | D18 | Config store access model: split store (system zone private; shared zone = dedicated SELinux context via Magisk sepolicy.rule) — spike-forced amendment | ADR-0021 |
+| D19 | Design system: token pipeline (JSON→generated Kotlin), pure-foundation components (no M3), glass engine w/ blur caps, token motion, springboard grid spec | ADR-0022…0026 |
 
 **Derived commitments** (recorded as ADRs where they carry weight): minSdk = targetSdk = 33 (ADR-0017) · no third-party crash/analytics SDKs (ADR-0018) · hook seam + file-based event signaling (ADR-0019) · GitHub Actions CI/CD model (ADR-0020) · Kotlin on Android, TypeScript/React (Vite) + zod for WebUI · no Rust, no cloud.
 

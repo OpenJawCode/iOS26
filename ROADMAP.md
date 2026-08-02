@@ -1,6 +1,6 @@
 # ROADMAP.md — Milestone Roadmap
 
-> Status: **Phase 1 in progress** (Phase 0 closed 2026-08-02; Phase 1 opened same day). Phases are sequential; exit criteria must be met before the next phase opens. Every phase has an owner (AGENTS.md §2) and updates CONTEXT.md + ADRs as it learns.
+> Status: **Phase 2 in progress** (Phase 1 closed 2026-08-02) (Phase 0 closed 2026-08-02; Phase 1 opened same day). Phases are sequential; exit criteria must be met before the next phase opens. Every phase has an owner (AGENTS.md §2) and updates CONTEXT.md + ADRs as it learns.
 
 ## Phase 0 — Discovery *(current)*
 

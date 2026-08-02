@@ -27,6 +27,11 @@ Every significant architectural decision is recorded here. Numbering is sequenti
 | [0019](0019-hook-seam-signaling.md) | Hook seam & file-event signaling |
 | [0020](0020-ci-cd-model.md) | CI/CD model |
 | [0021](0021-config-store-access-model.md) | Config store access model (amends ADR-0006) |
+| [0022](0022-token-architecture.md) | Token architecture & pipeline |
+| [0023](0023-glass-engine-blur-strategy.md) | Glass engine & blur strategy |
+| [0024](0024-motion-system.md) | Motion system (token-driven) |
+| [0025](0025-component-library-architecture.md) | Component library (no M3) |
+| [0026](0026-springboard-grid-spec.md) | Springboard grid specification |
 
 ## Template
 
