@@ -111,3 +111,14 @@ When a session's context is exhausted mid-task: write a handoff note under `docs
 - Fast gates: `./gradlew testDebugUnitTest ktlintCheck detekt architectureValidate` (BUILD.md).
 - `lint` is CI-only (slow); config cache + build cache are on; dependency lockfiles committed.
 - ARM64 host runs x86_64 aapt2 via qemu binfmt (BUILD.md) — do not "fix" it.
+
+## Knowledge Bootstrap (2026-08-03)
+
+- `skills/` — vendored community skills (read-only, provenance in each SOURCE.md) +
+  project skills (PROJECT-SPECIFIC). Load `skills/SKILLS.md` / `SKILL_INVENTORY.md` for
+  routing; `SKILL_RECOMMENDATIONS.md` has the per-phase stack.
+- Project skills encode validated practice: systemui-hook-injection, magisk-lab,
+  android-re-toolchain, ui-forensics, adr-authoring, baseline-profiles.
+- Vendored: HIG rules + PDF, Liquid Glass ref, HIG corpus, chrisbanes Compose skills,
+  skydoves Compose-perf (25), design-motion-principles, awesome-android subset, sanyuan
+  code review. Global symlinks: ~/.claude/skills/v-*, project-*.
