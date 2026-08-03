@@ -46,7 +46,11 @@ class ToggleControl(
         runCatching { write() }.onFailure { t ->
             CcLog.tag("$label write failed: $t")
             available = false
-            fallbackIntent?.let { context.startActivity(it) }
+            fallbackIntent?.let {
+                // App-context startActivity requires NEW_TASK (crash found in 3.2 validation).
+                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(it)
+            }
         }
         // Radios settle asynchronously — re-read shortly after.
         retryScope.launch { delay(400); refresh() }
@@ -81,9 +85,10 @@ class CcControllers(context: Context) {
         label = "Airplane mode",
         read = { Settings.Global.getInt(app.contentResolver, "airplane_mode_on") != 0 },
         write = {
+            // The setting write alone triggers the system observer; sending the
+            // AIRPLANE_MODE broadcast requires signature perms (denied — validated).
             val next = if (Settings.Global.getInt(app.contentResolver, "airplane_mode_on") == 0) 1 else 0
             Settings.Global.putInt(app.contentResolver, "airplane_mode_on", next)
-            app.sendBroadcast(Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED).putExtra("state", next == 1))
         },
         fallbackIntent = Intent(Settings.ACTION_AIRPLANE_MODE_SETTINGS),
     )
