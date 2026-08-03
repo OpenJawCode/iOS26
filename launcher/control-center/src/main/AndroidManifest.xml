@@ -19,6 +19,13 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <application>
+        <service
+            android:name=".CcForegroundService"
+            android:exported="false" />
+    </application>
 
     <!-- Validation-only (root-granted via pm grant on the lab build): radio/secure toggles. -->
     <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />

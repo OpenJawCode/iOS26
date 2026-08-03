@@ -42,12 +42,13 @@ class CcOverlayWindow(context: Context) {
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
             WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN or
                 WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS or
-                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED or
-                WindowManager.LayoutParams.FLAG_BLUR_BEHIND,
+                WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED,
             PixelFormat.TRANSLUCENT,
         ).apply {
             gravity = Gravity.TOP or Gravity.START
-            setBlurBehindRadius(Tokens.Blur.maxWindow)
+            // Blur-behind removed: untrusted blur windows don't present on this Moto
+            // firmware (device finding). Backdrop blur = RenderEffect in the surface
+            // (single blur budget, ADR-0030) once rendering is verified.
         }
         runCatching { wm.addView(view, lp) }
             .onFailure { CcLog.tag("overlay attach failed: $it") }

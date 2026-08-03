@@ -43,6 +43,7 @@ class CcHost(context: Context) {
             CcLog.tag("flag off — host idle (stock behavior)")
             return
         }
+        CcForegroundService.start(app)
         watcherJob?.cancel()
         watcherJob = PollWatcher(store.eventFile(EVENT_OPEN), scope).observe {
             store.consumeEvent(EVENT_OPEN)
