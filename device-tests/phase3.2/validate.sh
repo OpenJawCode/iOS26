@@ -62,15 +62,29 @@ $ADB exec-out screencap -p > "$SHOT/toggles.png"
 
 echo "== 7. brightness slider =="
 B0=$($ADB shell "settings get system screen_brightness" | tr -d '\r')
+B0v=$($ADB shell "settings get system screen_brightness" | tr -d '\r')
 $ADB shell "input swipe 900 835 300 835 300" >/dev/null 2>&1; sleep 1   # brightness slider
+B1v=$($ADB shell "settings get system screen_brightness" | tr -d '\r')
+[ "$B0v" != "$B1v" ] && ok "brightness changed ($B0v -> $B1v)" || bad "brightness unchanged"
 B1=$($ADB shell "settings get system screen_brightness" | tr -d '\r')
 [ "$B0" != "$B1" ] && ok "brightness changed ($B0 -> $B1)" || bad "brightness unchanged"
 
 echo "== 8. volume slider =="
 V0=$($ADB shell "dumpsys audio 2>/dev/null" | grep -oE "STREAM_MUSIC[^=]*=[0-9]+" | head -1 | grep -oE "[0-9]+$")
+V0v=$($ADB shell "cmd audio get-stream-volume STREAM_MUSIC 2>/dev/null" | tr -d '\r')
 $ADB shell "input swipe 900 1241 300 1241 300" >/dev/null 2>&1; sleep 1   # volume slider
+V1v=$($ADB shell "cmd audio get-stream-volume STREAM_MUSIC 2>/dev/null" | tr -d '\r')
+[ "$V0v" != "$V1v" ] && ok "volume changed ($V0v -> $V1v)" || bad "volume unchanged"
 V1=$($ADB shell "dumpsys audio 2>/dev/null" | grep -oE "STREAM_MUSIC[^=]*=[0-9]+" | head -1 | grep -oE "[0-9]+$")
 [ "$V0" != "$V1" ] && ok "volume changed ($V0 -> $V1)" || bad "volume unchanged"
+
+echo "== 8b. media session (active) =="
+# Play a YouTube/Instagram video via intent to create an active media session
+$ADB shell "am start -a android.intent.action.VIEW -d 'https://youtu.be/dQw4w9WgXcQ' -t 'text/plain'" >/dev/null 2>&1
+sleep 5
+$ADB exec-out screencap -p > "$SHOT/media-active.png"
+$ADB shell "dumpsys media_session 2>/dev/null | grep -cE 'controller|PlaybackState' | head -1"
+echo "(media check: see screenshot + dumpsys)"
 
 echo "== 9. media card =="
 $ADB exec-out screencap -p > "$SHOT/media.png"
