@@ -1,6 +1,6 @@
 ---
 name: project-ui-forensics
-description: "PROJECT-SPECIFIC (iOS26). Visual-fidelity methodology without vision tools: how this project measures reference fidelity (Apple UI) and its own surfaces — pixel sampling, uiautomator hierarchy dumps, token diffing against GLASS_ENGINE_V2/MOTION specs, screenshot baselines. Use for design reviews, fidelity checks, and BEFORE/AFTER visual validation."
+description: "PROJECT-SPECIFIC (iOS26). Visual-fidelity methodology without vision tools: pixel sampling, uiautomator hierarchy dumps, token diffing against GLASS_ENGINE_V2/MOTION specs, screenshot baselines. Use for design reviews, fidelity checks, BEFORE/AFTER validation."
 license: GPL-3.0
 project: iOS26
 source: project-specific (VISUAL_FIDELITY_REPORT.md, MATERIAL_RESEARCH.md, AUDIT.md)

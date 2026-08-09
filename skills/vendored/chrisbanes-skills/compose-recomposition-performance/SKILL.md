@@ -1,6 +1,6 @@
 ---
 name: compose-recomposition-performance
-description: Use when investigating Jetpack Compose recomposition performance, skippable/restartable composables, composables.txt or compiler reports, Layout Inspector recomposition counts, back-writing snapshot state across phases, or frame-rate State reads in composition vs layout/draw, and it is not yet clear whether the cause is parameter stability, deferred reads, or cross-phase back-writing.
+description: "Investigate Jetpack Compose recomposition performance: skippable/restartable composables, composables.txt/compiler reports, Layout Inspector counts, back-writing snapshot state, frame-rate State reads — when the cause is unclear (parameter stability, deferred reads, cross-phase back-writing)."
 ---
 
 # Compose recomposition performance

@@ -1,6 +1,6 @@
 ---
 name: skill-review
-description: "Quality review and audit for Claude Code skills. Analyzes skill structure, description quality, workflow design, token efficiency, and anti-patterns against best practices. Use when user wants to review a skill, audit a skill, check skill quality, evaluate a skill, critique a skill, lint a skill, or validate a skill. Triggers: 'review skill', 'audit skill', 'skill quality', 'check my skill', 'evaluate skill', 'skill lint', 'validate skill', 'skill review', 'is this skill good', 'improve this skill'."
+description: "Quality review and audit for Claude Code skills: structure, description quality, workflow design, token efficiency, anti-patterns. Use when the user wants to review, audit, check, evaluate, critique, or validate a skill."
 ---
 
 # Skill Review

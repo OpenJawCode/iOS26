@@ -1,6 +1,6 @@
 ---
 name: project-android-re-toolchain
-description: "PROJECT-SPECIFIC (iOS26). Android reverse-engineering workflows used in this project: JADX decompilation of Moto SystemUI/APKs, APKTool resource decoding, smali inspection, dex class dumps, RRO overlay basics. Use when hook-target surveys, icon/asset extraction checks, or firmware behavior questions require reading compiled Android artifacts. Tool references are the canonical upstream repos (Apache-2.0/GPL)."
+description: "PROJECT-SPECIFIC (iOS26). Android reverse-engineering workflows: JADX decompilation of Moto SystemUI/APKs, APKTool resource decoding, smali inspection, dex class dumps, RRO overlay basics. Use for hook-target surveys, icon/asset extraction, firmware behavior questions."
 license: GPL-3.0
 project: iOS26
 source: project-specific (docs/phase0/research-log.md R5, hook surveys)

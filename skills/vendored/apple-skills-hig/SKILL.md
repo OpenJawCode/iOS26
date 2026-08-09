@@ -1,7 +1,7 @@
 ---
 name: hig
 user-invocable: true
-description: "Fact lookup: Apple Human Interface Guidelines corpus (greppable markdown). Query on demand for accessibility and ergonomic minimums (hit-target sizes, Dynamic Type), platform terminology, system component capabilities, and App-Review-relevant conventions. Not design direction."
+description: "Fact lookup: Apple Human Interface Guidelines corpus (greppable markdown). Query on demand for accessibility/ergonomic minimums (hit-target sizes, Dynamic Type), platform terminology, system component capabilities, App-Review conventions. Not design direction."
 context: fork
 agent: Explore
 ---

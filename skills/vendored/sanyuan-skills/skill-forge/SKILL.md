@@ -1,6 +1,6 @@
 ---
 name: skill-forge
-description: "Create high-quality, production-grade skills for Claude Code. Expert guidance on skill architecture, workflow design, prompt engineering, and packaging. Use when user wants to create a new skill, build a skill, design a skill, write a skill, update an existing skill, improve a skill, refactor a skill, debug a skill, or package a skill. Triggers: 'create skill', 'build skill', 'new skill', 'skill creation', 'write a skill', 'make a skill', 'design a skill', 'improve skill', 'package skill', 'skill development', 'skill template', 'skill best practices', 'write SKILL.md'."
+description: "Create high-quality, production-grade skills for Claude Code: architecture, workflow design, prompt engineering, packaging. Use when creating, building, designing, writing, updating, refactoring, debugging, or packaging a skill."
 ---
 
 # Skill Forge

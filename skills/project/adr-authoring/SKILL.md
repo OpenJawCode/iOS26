@@ -1,6 +1,6 @@
 ---
 name: project-adr-authoring
-description: "PROJECT-SPECIFIC (iOS26). Authoring Architecture Decision Records per this repo's conventions (docs/adr/README.md template, sequential numbering, statuses Proposed→Accepted→Superseded, never renumber, never delete). Use whenever a decision changes an architectural contract. Reference: adr/madr and npryce/adr-tools conventions (link-only, not vendored)."
+description: "PROJECT-SPECIFIC (iOS26). Authoring Architecture Decision Records per this repo's conventions (docs/adr/README.md template, sequential numbering, statuses Proposed→Accepted→Superseded, never renumber, never delete). Use when a decision changes an architectural contract."
 license: GPL-3.0
 project: iOS26
 source: project-specific (docs/adr/README.md, CONTEXT.md §2)

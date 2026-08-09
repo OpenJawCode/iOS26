@@ -191,6 +191,7 @@ internal fun CcSlider(
 private suspend fun PointerInputScope.awaitSliderDrag(onValueChange: (Float) -> Unit) {
     awaitEachGesture {
         val down = awaitFirstDown(requireUnconsumed = false)
+        down.consume() // the slider owns its touches — the panel drag must not track them
         val width = size.width.toFloat().coerceAtLeast(1f)
         val fraction = (down.position.x / width).coerceIn(0f, 1f)
         onValueChange(fraction)

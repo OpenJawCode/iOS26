@@ -1,6 +1,6 @@
 ---
 name: project-baseline-profiles
-description: "PROJECT-SPECIFIC (iOS26). Baseline Profiles + Macrobenchmark for THIS repo (benchmarks/macrobenchmark + launcher/baseline-prof modules exist). Use before perf gates and releases: generate baseline profile from the launcher start + CC open/close flows, wire Macrobenchmark scenarios, compare against the 8.33ms budget (ADR-0030). General Compose-perf depth comes from vendored skydoves/chrisbanes skills."
+description: "PROJECT-SPECIFIC (iOS26). Baseline Profiles + Macrobenchmark for THIS repo (benchmarks/macrobenchmark + launcher/baseline-prof modules exist). Use before perf gates and releases: generate baseline profile, wire Macrobenchmark scenarios, compare against the 8.33ms budget (ADR-0030)."
 license: GPL-3.0
 project: iOS26
 source: project-specific (ADRs 0029/0030, docs/phase3/CONTROL_CENTER_PERFORMANCE.md)

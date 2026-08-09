@@ -25,6 +25,14 @@
         <service
             android:name=".CcForegroundService"
             android:exported="false" />
+        <activity
+            android:name=".CcHostActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity="dev.ios26.cc.host"
+            android:exported="false"
+            android:launchMode="singleTask" />
     </application>
 
     <!-- Validation-only (root-granted via pm grant on the lab build): radio/secure toggles. -->

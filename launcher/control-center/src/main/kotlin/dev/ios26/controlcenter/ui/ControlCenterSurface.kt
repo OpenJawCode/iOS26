@@ -120,7 +120,8 @@ fun ControlCenterSurface(
                 .onSizeChanged { panelHeightPx = it.height.toFloat() }
                 .pointerInput(Unit) {
                     awaitEachGesture {
-                        val down = awaitFirstDown(requireUnconsumed = false)
+                        val down = awaitFirstDown(requireUnconsumed = true)
+                        if (down == null) return@awaitEachGesture
                         val tracker = VelocityTracker()
                         var dragging = false
                         var dismissByVelocity = false
@@ -173,7 +174,7 @@ fun ControlCenterSurface(
             ) {
                 ConnectivityCluster(state)
                 CcSliderCard("Brightness", state.brightness, onValueChange = { state.updateBrightness(it) })
-                CcSliderCard("Volume", state.volume, onValueChange = { state.updateVolume(it) })
+                CcSliderCard("Media volume", state.volume, onValueChange = { state.updateVolume(it) })
                 MediaCard(state)
                 FocusCard(state)
                 QuickActions(state)

@@ -1,6 +1,6 @@
 ---
 name: project-systemui-hook-injection
-description: "PROJECT-SPECIFIC (iOS26). SystemUI hooking on the Motorola Edge 20 via LSPosed (JingMatrix fork) using the modern libxposed API. Use for any hooks work: module entry, targeting, all-or-nothing rollback, Moto method drift, daemon registration. Distilled from the validated 3.1 chain — do not use the fork's legacy Xposed API (broken, AbstractMethodError)."
+description: "PROJECT-SPECIFIC (iOS26). SystemUI hooking on the Motorola Edge 20 via LSPosed (JingMatrix fork) using the modern libxposed API: module entry, targeting, all-or-nothing rollback, Moto method drift, daemon registration. Do not use the legacy Xposed API (broken)."
 license: GPL-3.0
 project: iOS26
 source: project-specific (docs/phase3/validation-report.md, ADR-0032/0033/0038)

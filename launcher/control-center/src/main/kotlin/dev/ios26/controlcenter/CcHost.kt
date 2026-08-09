@@ -64,6 +64,15 @@ class CcHost(context: Context) {
             CcLog.tag("overlay permission missing — in-app fallback expected")
             return
         }
+        // Device finding: this Moto firmware only presents an app's windows while it has a
+        // resumed activity. The transparent host activity keeps the process present so the
+        // overlay renders over ANY foreground app (not just the launcher).
+        runCatching {
+            app.startActivity(
+                android.content.Intent(app, CcHostActivity::class.java)
+                    .addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK),
+            )
+        }
         state.refresh()
         window.show { ControlCenterSurface(state, onDismiss = { dismiss() }) }
     }
@@ -71,6 +80,7 @@ class CcHost(context: Context) {
     fun dismiss() {
         if (!window.isAttached) return
         window.hide()
+        CcHostActivity.finishHost()
         state.media.refresh()
         runCatching { store.writeEvent(EVENT_CLOSE) } // informational (ADR-0037)
     }

@@ -1,6 +1,6 @@
 ---
 name: project-magisk-lab
-description: "PROJECT-SPECIFIC (iOS26). Magisk provisioning and SELinux policy on the ARM64 lab + rooted Edge 20. Use for: magiskpolicy --live grants, module install/removal, boot-loop protection, permission grants (pm/appops) for the launcher, lab quirks (qemu aapt2, disk hygiene). Distilled from Phase 0-3 operations."
+description: "PROJECT-SPECIFIC (iOS26). Magisk provisioning and SELinux policy on the ARM64 lab + rooted Edge 20: magiskpolicy --live grants, module install/removal, boot-loop protection, permission grants, lab quirks (qemu aapt2, disk hygiene)."
 license: GPL-3.0
 project: iOS26
 source: project-specific (DEVICE_SETUP.md, BUILD.md, ADR-0021)
