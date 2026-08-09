@@ -42,6 +42,13 @@ untrusted_app on this firmware). Consume = read + delete. SELinux: `platform_app
 
 Flag off → module disable (manager) → forced failure: all three = fully stock SystemUI, 0 hook logs.
 
+## Host-side requirement (device finding, 2026-08-09)
+
+The launcher/overlay host must have a RESUMED activity for its windows to present on this
+firmware — the overlay alone (even with FGS) stays at 0x0 SF buffers. The CC raises a
+transparent host activity (CcHostActivity) on open and finishes it on dismiss. Never
+"optimize" this away without re-verifying pixel presentation over a foreign app.
+
 ## References
 
 - `hooks/control-center/src/main/java/.../ControlCenterModule.kt` (working reference)

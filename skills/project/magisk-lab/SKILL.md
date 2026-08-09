@@ -34,6 +34,17 @@ source: project-specific (DEVICE_SETUP.md, BUILD.md, ADR-0021)
   without it — processing still works.
 - Verify denials with `dmesg | grep avc` and `ls -laZ`.
 
+## Reboot protocol (learned 2026-08-09)
+
+- A reboot while the phone is in a stuck-shade/keyguard state can leave the phone
+  unreachable for 45+ min (tailscaled sending, rx 0; port 5555 closed) — likely a
+  degraded/slow boot; Magisk bootloop protection disables modules if it truly loops
+  (no wipe possible). Budget physical recovery (press-and-hold power) when rebooting
+  overnight; prefer daytime reboots.
+- Post-reboot: adbd listens on 5555 automatically (persist.adb.tcp.port), but the
+  tailnet can lag; wait for `tailscale status` to show the peer WITHOUT "offline"
+  before connecting.
+
 ## Lab quirks (ARM64 box)
 
 - aapt2 is x86_64 → runs via qemu-user binfmt; never "fix" it (BUILD.md).
