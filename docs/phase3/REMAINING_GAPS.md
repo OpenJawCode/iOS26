@@ -1,15 +1,14 @@
 # REMAINING_GAPS.md — Phase 3.2
 
-## Blocker (must fix before re-validation)
+## Blocker (root-caused 2026-08-09; fix implemented, device re-verification pending)
 
-1. **Overlay pixel presentation on the Edge 20.** Window attaches/inputs/semantics; no
-   pixels present. Suspects in order: (a) host must be activity-visible for surfaces to
-   present on this firmware — test with the launcher activity RESUMED; (b) AM
-   overlay-UI tracking ("setHasOverlayUi unknown pid") — inspect `mHasOverlayUi` for the
-   app; (c) BLAST/VSYNC interaction with overlay windows post-reboot — test on a clean
-   boot (this boot carries a Moto-launcher relaunch storm). Priv-app/persistent packaging
-   (ADR-0008, Phase 4) is the production answer; a transparent host activity is the
-   interim fallback. **Verify pixel presentation FIRST, then re-run the battery.**
+1. **Overlay pixel presentation.** ROOT CAUSE: this Moto firmware presents an app's
+   windows only while the app has a resumed activity (starting-reveal never completes
+   otherwise; SF buffers stay 0×0). With the launcher activity foreground the CC renders
+   fully (pixel-verified). FIX (implemented, committed 74b6560): transparent host
+   activity (CcHostActivity, raised on CC-open, finished on dismiss) + FLAG_SHOW_WHEN_LOCKED
+   + retained FGS. **Next device session: verify CC over a foreign foreground app (e.g.,
+   Chrome), then re-run the full battery.**
 
 ## Regression (re-verify after the fix; mechanisms unchanged from 3.1)
 

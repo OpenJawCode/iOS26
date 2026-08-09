@@ -29,7 +29,7 @@
 
 | Item | Evidence | Status |
 |---|---|---|
-| **Overlay pixel rendering over other apps** | Overlay window attaches, receives input, exposes semantics — but screenshots show the underlying wallpaper in every session; SF layers exist with 0×0 activeBuffer; gfxinfo renders frames that never present | **BLOCKED — root cause not isolated** |
+| **Overlay pixel rendering (root cause found 2026-08-09)** | This Moto firmware only PRESENTS an app's windows while the app has a RESUMED activity — otherwise the window stays in starting-reveal with 0×0 SF buffers (input + a11y + rendering all work, pixels never present). With the launcher foreground: **CC panel fully renders** (accent-filled tiles pixel-verified at token-exact bounds). Over other apps: fixed by the transparent host activity (CcHostActivity) — **fix pending device re-verification** | **ROOT-CAUSED + FIXED, re-verification pending** |
 | Wi-Fi toggle (live) | Not executed — would sever the wireless adb link (no recovery path) | Pending (user-present session) |
 | Airplane toggle (live) | Not executed — same reason | Pending |
 | Bluetooth re-enable | OFF→ON failed twice during the session (enable() path) — needs investigation with the NEW_TASK fix in place | Pending re-test |
@@ -37,6 +37,12 @@
 | Brightness/volume slider writes | Sliders present + state read; write verification inconclusive (screen-state fights) | Pending re-test |
 
 ## Session findings (code fixed during validation)
+
+0. (2026-08-09) Render root cause: activity-visible dependency on this firmware; fix =
+   transparent host activity + FLAG_SHOW_WHEN_LOCKED + retained FGS. Also: the notification
+   shade + keyguard (no PIN, swipe-only) can hijack taps and block rendering when the
+   activity is stopped — validation must run with the launcher foreground.
+
 
 1. Fallback intents crashed (app-context startActivity, no NEW_TASK) → fixed + guarded.
 2. Airplane broadcast denied (signature perm) → removed; setting write alone drives the observer.
