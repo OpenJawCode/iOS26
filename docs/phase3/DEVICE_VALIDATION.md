@@ -25,11 +25,21 @@
 | Crash containment | Fallback-intent crash (NEW_TASK) found & fixed; VIBRATE crash found & fixed; both guarded |
 | SELinux event writes | platform_app → shell_data_file re-granted after reboot (live policies are reboot-volatile); untrusted_app grant added for host cleanup |
 
+## Verified PASS (user hands-on, 2026-08-10)
+
+| Item | Evidence |
+|---|---|
+| CC opens over a foreign app | User-verified: panel visible over Chrome/Bing (service-owned host fix) |
+| Close gesture (real finger) | User: swipe down closes ✓ |
+| Open gesture (real finger) | User: top-right swipe re-opens ✓ (hook chain) |
+| Toggle (real finger) | User: Wi-Fi tile toggles ✓ |
+| Slider (real finger) | User: brightness slider works ✓ |
+
 ## Verified FAIL / BLOCKED
 
 | Item | Evidence | Status |
 |---|---|---|
-| **Overlay pixel rendering (root cause found 2026-08-09)** | This Moto firmware only PRESENTS an app's windows while the app has a RESUMED activity — otherwise the window stays in starting-reveal with 0×0 SF buffers (input + a11y + rendering all work, pixels never present). With the launcher foreground: **CC panel fully renders** (accent-filled tiles pixel-verified at token-exact bounds). Over other apps: fixed by the transparent host activity (CcHostActivity) — **fix pending device re-verification** | **ROOT-CAUSED + FIXED, re-verification pending** |
+| **Overlay pixel rendering (root cause + FIX, 2026-08-09/10)** | This Moto firmware only presents an app's windows while the app has a resumed activity. Fix = service-owned host (watcher lives in the FGS, not the activity) + transparent host activity + SHOW_WHEN_LOCKED. **USER-VERIFIED 2026-08-10 (hands-on): CC opens over a foreign app (Chrome/Bing), panel visible, swipe-down closes, top-right swipe re-opens, Wi-Fi tile toggles, brightness slider works — "all worked"** | **VERIFIED (user hands-on)** |
 | Wi-Fi toggle (live) | Not executed — would sever the wireless adb link (no recovery path) | Pending (user-present session) |
 | Airplane toggle (live) | Not executed — same reason | Pending |
 | Bluetooth re-enable | OFF→ON failed twice during the session (enable() path) — needs investigation with the NEW_TASK fix in place | Pending re-test |
