@@ -1,11 +1,12 @@
 # PERFORMANCE_REPORT.md — Phase 3.2 (measured where the device allowed)
 
-## The honest headline
+## The honest headline (updated 2026-08-10)
 
-**End-to-end performance is NOT measurable yet**: the overlay has not presented pixels on
-the device (DEVICE_VALIDATION.md §FAIL), so frame-time/jank/overdraw of the real surface are
-unverifiable. What follows is what WAS measured, plus the cost model that IS verifiable by
-construction.
+The surface now renders on the device and the user's hands-on pass found no jank ("all
+worked" — swipe open/close, toggles, slider). QUANTITATIVE frame-time/memory numbers are
+still pending a quiet device session (screencap on this firmware returns stale AOD frames
+and the tailnet was flaky, so the histogram pass is deferred, not failed). What follows is
+what WAS measured, plus the cost model that IS verifiable by construction.
 
 ## Measured
 

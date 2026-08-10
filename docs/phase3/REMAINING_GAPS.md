@@ -1,6 +1,14 @@
 # REMAINING_GAPS.md — Phase 3.2
 
-## Blocker (root-caused 2026-08-09; fix implemented, device re-verification pending)
+## Resolved (2026-08-10) — render blocker FIXED + user-verified
+
+Service-owned host (watcher in the FGS — activity-owned watchers die when the activity is
+stopped) + transparent host activity + SHOW_WHEN_LOCKED. User hands-on verification over a
+foreign app: open/close swipes, top-right gesture, Wi-Fi toggle, brightness slider — all
+worked. THE PHONE IS NOW HANDED BACK TO THE USER — no further device interaction without
+their go-ahead.
+
+## Follow-up (non-blocking, next quiet session)
 
 1. **Overlay pixel presentation.** ROOT CAUSE: this Moto firmware presents an app's
    windows only while the app has a resumed activity (starting-reveal never completes
