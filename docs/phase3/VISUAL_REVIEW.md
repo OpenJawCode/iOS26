@@ -8,14 +8,15 @@
 
 ## Findings
 
-### 1. [CRITICAL] Overlay never presents pixels on the device
-- **Describe**: window attaches/inputs/semantics work; no pixels reach the screen.
-- **Why**: host-window visibility on Moto firmware; AM overlay-UI tracking ("setHasOverlayUi
-  unknown pid"); not fixed by FGS or blur removal.
-- **Severity**: CRITICAL (acceptance blocker — "runs on the Motorola Edge 20").
-- **Fix**: isolate activity-visible dependency (test with launcher foreground); if required,
-  hold visibility via priv-app/persistent (Phase-4 packaging, ADR-0008) or a transparent
-  host activity; verify pixel presentation first, then re-add blur via RenderEffect.
+### 1. [RESOLVED→RE-VERIFY] Overlay pixel presentation (was CRITICAL)
+- **Describe**: root-caused 2026-08-09 — this Moto firmware only presents an app's windows
+  while the app has a RESUMED activity (starting-reveal never completes otherwise).
+- **Evidence (2026-08-09, launcher foreground)**: CC panel pixel-verified on the device —
+  204k accent-blue pixels at the exact token bounds (Wi-Fi/Cellular tiles active-filled
+  #0A84FF-family; BT tile glass-gray = off state); scrim/glass dimming over the springboard
+  (53,47,48 dark); entrance animation 102 frames; gestures + dismiss re-verified.
+- **Fix (committed 74b6560)**: transparent host activity + FLAG_SHOW_WHEN_LOCKED + FGS.
+  **Re-verify over a foreign app in the next device session** (device offline 23:00+).
 
 ### 2. [HIGH] Slider drag vs panel drag contention (design review, unverified on device)
 - **Describe**: the panel's drag handler uses `awaitFirstDown(requireUnconsumed = false)` —
