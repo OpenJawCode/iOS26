@@ -38,13 +38,15 @@ class CcHost(context: Context) {
     fun isActive(): Boolean =
         isFlagEnabled() && canOverlay()
 
+    private val started = java.util.concurrent.atomic.AtomicBoolean(false)
+
     fun start() {
         if (!isFlagEnabled()) {
             CcLog.tag("flag off — host idle (stock behavior)")
             return
         }
+        if (!started.compareAndSet(false, true)) return
         CcForegroundService.start(app)
-        watcherJob?.cancel()
         watcherJob = PollWatcher(store.eventFile(EVENT_OPEN), scope).observe {
             store.consumeEvent(EVENT_OPEN)
             CcLog.tag("cc-open event")

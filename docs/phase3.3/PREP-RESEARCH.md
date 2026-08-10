@@ -26,6 +26,22 @@ this repo already hosts the survey seam (R02) and the hook chain that 3.3 would 
 5. Moto's shade is heavily OEM-customized (Cli* classes); any 3.3 surface must NOT try to
    replace the shade — reuse the CC overlay pattern for a banner/notification surface.
 
+## Lock-screen CC research (background lane, 2026-08-10)
+
+Synthesis of the delegated research (iOS 18/26/27 lock-screen CC behavior + HIG):
+- iOS opens CC from the lock screen by default; per-feature toggle under "Allow Access
+  When Locked"; radio toggles work locked, app-launching controls require auth (since 18).
+- HIG: symbol-only presentation when locked; redact privacy-sensitive state; require
+  auth for security-affecting actions (privacySensitive(_:), authenticationPolicy).
+- Android 13: QS tiles can show on the lockscreen; isSecure() gates content;
+  unlockAndRun() prompts for unsafe actions. Android 17 (2026) converging: unlock
+  required for Wi-Fi/BT/mobile-data/airplane; flashlight/rotation/battery-saver stay free.
+- Implication for our overlay: classify controls by risk (safe-while-locked:
+  brightness/volume/flashlight/media vs security-affecting: airplane/mobile-data/Wi-Fi/BT),
+  redact state when locked, icon-only presentation, per-feature "Allow when locked"
+  policy. Lock-screen CC itself remains DEFERRED (D1) — this is the design contract for
+  when it lands.
+
 ## Open questions for 3.3 (to resolve with the device)
 
 - Which notification content is accessible to the host without notification-listener

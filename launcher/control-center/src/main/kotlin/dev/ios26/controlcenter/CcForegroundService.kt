@@ -20,6 +20,10 @@ class CcForegroundService : Service() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         startForeground(NOTIFICATION_ID, notification())
+        // The host (event watcher) lives HERE, not in any activity — the service keeps
+        // the process alive, so the CC can open over any foreground app (device finding:
+        // activity-owned watchers die when the activity is stopped).
+        CcHostHolder.ensureStarted(this)
         return START_STICKY
     }
 
@@ -44,4 +48,22 @@ class CcForegroundService : Service() {
             context.startForegroundService(Intent(context, CcForegroundService::class.java))
         }
     }
+}
+
+/**
+ * Process-lifetime holder for the host singleton: the watcher must outlive any single
+ * activity. Created lazily on the service's main thread.
+ */
+object CcHostHolder {
+    @Volatile
+    private var host: CcHost? = null
+
+    fun ensureStarted(context: Context) {
+        if (host == null) {
+            host = CcHost(context)
+            host?.start()
+        }
+    }
+
+    fun host(): CcHost? = host
 }
